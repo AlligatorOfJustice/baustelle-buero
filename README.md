@@ -1,5 +1,7 @@
 # baustelle-büro
 
+https://www.baustelle-buero.ch
+
 Kostenlose Selbsteinschätzung für Ordnung im Handwerksbetrieb: klare Ablagen, Zuständigkeiten und Informationsflüsse zwischen Büro und Baustelle.
 
 Die App besteht aus einer einzigen Datei (`index.html`) und läuft ohne Server. Eingaben werden nur lokal im Browser gespeichert.
