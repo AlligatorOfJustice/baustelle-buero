@@ -540,7 +540,8 @@ V.agb = () => `<div class="head"><span class="kicker">Rechtliches</span><h1>Allg
 
 /* ---------- Navigation ---------- */
 const VIEWS = ['start','fragen','ergebnis','massnahmen','werkzeuge','verlauf','toolkit','impressum','datenschutz','agb'];
-function go(v){
+function go(v, mode){
+  mode = mode || 'push';
   const r = score();
   if((v==='ergebnis' || v==='massnahmen') && !r.complete){ v = 'fragen'; qi = Math.max(0, INDICATORS.findIndex(i => !state.values[i.id])); }
   if(!VIEWS.includes(v)) v = 'start';
@@ -552,9 +553,20 @@ function go(v){
   flow.forEach((k,i) => { const b = $('#st-'+k); b.className = k===v ? 'now' : (flow.indexOf(v) > i ? 'done' : ''); b.disabled = k!=='fragen' && !r.complete; });
   ['werkzeuge','verlauf','toolkit'].forEach(k => $('#nav-'+k).classList.toggle('on', v===k));
   if(v==='werkzeuge' && state.tool==='fname') initFname();
-  try{ history.replaceState(null,'','#'+v); }catch(e){}
+  try{
+    const st = {v:v, qi:qi}, cur = history.state;
+    const same = cur && cur.v === v && (v !== 'fragen' || cur.qi === qi);
+    if(mode === 'replace' || (mode === 'push' && same)) history.replaceState(st,'','#'+v);
+    else if(mode === 'push') history.pushState(st,'','#'+v);
+  }catch(e){}
   window.scrollTo(0,0);
 }
+window.addEventListener('popstate', e => {
+  clearTimeout(advanceT);
+  const st = e.state;
+  if(st && st.v){ if(typeof st.qi === 'number') qi = st.qi; go(st.v, 'none'); }
+  else go((location.hash||'').slice(1) || 'start', 'replace');
+});
 
 let advanceT;
 document.addEventListener('click', e => {
@@ -627,7 +639,7 @@ function copyName(){
   try{ navigator.clipboard.writeText(fileName()).then(() => done('Kopiert.'), fail); }catch(e){ fail(); }
 }
 
-go((location.hash||'').slice(1) || 'start');
+go((location.hash||'').slice(1) || 'start', 'replace');
 </script>
 
 </body>
