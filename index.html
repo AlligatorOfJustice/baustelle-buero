@@ -172,9 +172,8 @@ main{display:flex;flex-direction:column;gap:24px}
 .about-txt h2{font-size:22px;font-weight:800}
 .about-txt p{margin:0;max-width:62ch}
 .about-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
-.about-short{display:flex;gap:12px;align-items:center;padding:12px 14px;background:var(--bg);border-radius:10px}
-.about-short img{width:56px;height:56px;border-radius:50%;object-fit:cover;flex:none}
-.about-short p{margin:0;font-size:14.5px;line-height:1.45}
+.about-short{margin:0;font-size:14px;color:var(--muted)}
+.about-short a{color:var(--primary)}
 @media (max-width:560px){.about{grid-template-columns:1fr;gap:14px}.about img{width:96px;height:96px}}
 /* Newsletter (Brevo-Formular, eigenes Design) */
 #nl-park{display:none}
@@ -445,10 +444,7 @@ const about = () => `<section class="card about" aria-labelledby="about-h">
       ${aboutLinks()}
     </div>
   </section>`;
-const aboutShort = () => `<div class="about-short">
-    <img src="img/florian.jpg" width="56" height="56" alt="Florian Buchs" loading="lazy">
-    <p><b>Entwickelt von Florian Buchs</b>, Gartenbautechniker HF, auf Basis seiner Diplomarbeit über Datenmanagement in Handwerksbetrieben. Fragen vor dem Kauf? <a href="mailto:${ME.email}">Schreib mir</a>.</p>
-  </div>`;
+const aboutShort = () => `<p class="about-short">Entwickelt von Florian Buchs auf Basis seiner Diplomarbeit. Fragen vor dem Kauf? <a href="mailto:${ME.email}">Schreib mir</a>.</p>`;
 
 /* ---------- Bewertung ---------- */
 const stageAvg = a => a < 1.8 ? 1 : a < 2.65 ? 2 : a < 3.5 ? 3 : a < 4.35 ? 4 : 5;
