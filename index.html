@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="baustelle-büro: kostenlose Selbsteinschätzung für Ordnung im Betrieb. Für Handwerksbetriebe.">
 <title>baustelle-büro</title>
+<link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_CH">
 <meta property="og:url" content="https://www.baustelle-buero.ch/">
@@ -164,6 +165,40 @@ main{display:flex;flex-direction:column;gap:24px}
 .msg{border-left:4px solid var(--accent);background:var(--surface);padding:14px 16px;border-radius:0 10px 10px 0}
 .msg b{display:block;margin-bottom:2px}
 .tag{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14.5px;background:var(--primary-soft);border-radius:8px;padding:10px 14px}
+.notice{display:flex;gap:10px;align-items:center;font-size:15px;font-weight:500;background:var(--primary-soft);border-left:4px solid var(--ok);border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:18px}
+/* Newsletter (Brevo-Formular, eigenes Design) */
+#nl-park{display:none}
+.nl{margin-top:28px}
+.nl .sib-form{padding:0;background:none;text-align:left;font-family:var(--f-body)}
+.nl .sib-form-container{max-width:none;padding:0}
+.nl #sib-container{max-width:none;background:var(--surface);border:1.5px solid var(--primary);border-radius:12px;box-shadow:var(--shadow);padding:22px;text-align:left}
+.nl form{display:flex;flex-direction:column;gap:12px}
+.nl h2{font-family:var(--f-head);font-size:22px;font-weight:800;margin:0;color:var(--ink)}
+.nl p{margin:0}
+.nl .sib-form-block,.nl .sib-input{padding:0;margin:0}
+.nl .nl-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.nl .nl-row .sib-input{flex:1 1 240px;min-width:0}
+.nl .form__entry,.nl .entry__field{margin:0;padding:0;border:0;background:none;box-shadow:none}
+.nl label.entry__label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.nl #EMAIL{width:100%;box-sizing:border-box;font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;height:auto;margin:0}
+.nl #EMAIL:focus{outline:none;border-color:var(--primary)}
+.nl #EMAIL::placeholder{color:var(--muted);font-family:var(--f-body)}
+.nl .entry__error{font-size:14px;color:var(--crit);background:none;border:0;padding:4px 0 0;margin:0}
+.nl .entry__error:empty{display:none}
+.nl .sib-form-block__button{display:inline-flex;align-items:center;gap:8px;font:700 15px var(--f-body);color:#fff;background:var(--accent);border:1.5px solid var(--accent);border-radius:8px;padding:10px 18px;cursor:pointer;text-transform:none;margin:0}
+.nl .sib-form-block__button:hover{filter:brightness(1.06)}
+.nl .progress-indicator__icon{width:16px;height:16px;fill:currentColor}
+.nl .input--hidden{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
+.nl small{font-size:13px;color:var(--muted)}
+.nl .sib-form-message-panel{display:none}
+.nl .sib-form-message-panel.sib-form-message-panel--active{display:block}
+.nl .sib-hide-loader-icon{display:none}
+.nl .sib-form-message-panel{max-width:none;margin:0 0 12px;border-radius:10px;font-family:var(--f-body);font-size:15px;padding:12px 16px;text-align:left}
+.nl #success-message{color:var(--ink);background:var(--primary-soft);border:1.5px solid var(--ok)}
+.nl #error-message{color:var(--ink);background:var(--accent-soft);border:1.5px solid var(--crit)}
+.nl .sib-form-message-panel__text{display:flex;gap:10px;align-items:flex-start;padding:0}
+.nl .small-link,.nl small .btn.link{font-size:13px;font-weight:500}
+.nl .sib-notification__icon{width:20px;height:20px;flex:none;fill:currentColor}
 .share{padding:20px;display:grid;grid-template-columns:minmax(0,220px) minmax(0,1fr);gap:20px;align-items:center}
 .share img{width:100%;height:auto;aspect-ratio:1;border-radius:10px;border:1px solid var(--line);display:block;background:var(--bg)}
 .share-txt{display:flex;flex-direction:column;gap:10px;min-width:0}
@@ -303,6 +338,33 @@ footer{border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:va
       <li><button data-view="massnahmen" id="st-massnahmen"><span class="dot">3</span>Massnahmen</button></li>
     </ol>
     <main id="main"></main>
+    <div id="nl-park"><section class="nl" id="nl" aria-labelledby="nl-h">
+      <div class="sib-form">
+        <div id="sib-form-container" class="sib-form-container">
+          <div id="error-message" class="sib-form-message-panel"><div class="sib-form-message-panel__text sib-form-message-panel__text--center"><svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon" aria-hidden="true"><path d="M256 8C119 8 8 119.1 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm-11.5 120h23c6.8 0 12.3 5.7 12 12.5l-7 168c-.3 6.4-5.6 11.5-12 11.5h-9c-6.4 0-11.7-5.1-12-11.5l-7-168c-.3-6.8 5.2-12.5 12-12.5zM256 340c-15.5 0-28 12.5-28 28s12.5 28 28 28 28-12.5 28-28-12.5-28-28-28z"/></svg><span class="sib-form-message-panel__inner-text">Das hat nicht geklappt. Bitte prüfen Sie die E-Mail-Adresse und versuchen Sie es nochmals.</span></div></div>
+          <div></div>
+          <div id="success-message" class="sib-form-message-panel"><div class="sib-form-message-panel__text sib-form-message-panel__text--center"><svg viewBox="0 0 512 512" class="sib-icon sib-notification__icon" aria-hidden="true"><path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm141.6 189L217.2 376.1c-4.7 4.7-12.3 4.6-17-.1l-85.9-86.6c-4.7-4.7-4.6-12.3.1-17l8.5-8.5c4.7-4.7 12.3-4.6 17 .1l69 69.5 163.4-162.1c4.7-4.7 12.3-4.6 17 .1l8.5 8.5c4.6 4.7 4.6 12.3-.2 17z"/></svg><span class="sib-form-message-panel__inner-text">Fast geschafft: Bitte bestätigen Sie die Anmeldung in der E-Mail, die wir Ihnen gerade geschickt haben.</span></div></div>
+          <div></div>
+          <div id="sib-container" class="sib-container--large sib-container--vertical">
+            <form id="sib-form" method="POST" action="https://20f7b1b7.sibforms.com/serve/MUIFAKEhaUwSC4tGvq70K1dakSgOoQWbxUkqKvxSQuhMiiRXIsjzOkv5lUORD2P0TWq7red_CKtAxRtuLNBmPP4-7xI9wBqJBfzWZKR8jUn2dcwGURy5Prelc36xiObpXM3ipHudVyh6wWAMeW768j0M69nuFVUWQ8EoBxkRPV0vNjmS8giAWRH25CFrDet_xFVv6WWvJjMwH0T4jQ==" data-type="subscription">
+              <span class="kicker">Büro-Brief</span>
+              <h2 id="nl-h">Alle zwei Wochen ein Büro-Tipp für Handwerksbetriebe</h2>
+              <p class="muted">Ein Tipp, eine Vorlage, fünf Minuten Lesezeit. Kostenlos und jederzeit abbestellbar.</p>
+              <div class="nl-row">
+                <div class="sib-input sib-form-block"><div class="form__entry entry_block"><div class="form__label-row">
+                  <label class="entry__label" for="EMAIL" data-required="*">E-Mail-Adresse</label>
+                  <div class="entry__field"><input class="input" type="email" id="EMAIL" name="EMAIL" autocomplete="email" inputmode="email" value="" placeholder="name@betrieb.ch" data-required="true" required></div>
+                </div><label class="entry__error entry__error--primary"></label></div></div>
+                <div class="sib-form-block"><button class="sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit"><svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512" aria-hidden="true"><path d="M460.1 373.8l-20.8-12c-5.5-3.2-7.5-10.2-4.7-15.9 30.1-59.9 28.3-131.7-5.4-189.9-33.6-58.4-94.9-95.8-161.8-99.7-6.4-.3-11.4-5.6-11.4-12V20.3c0-6.9 5.8-12.3 12.7-12 83.6 4.3 160.2 50.9 202.1 123.7 42.1 72.7 44.1 162.3 6 236.8-3.1 6.2-10.7 8.5-16.7 5z"/></svg>Anmelden</button></div>
+              </div>
+              <small>Sie erhalten zuerst eine E-Mail zur Bestätigung. Details in der <button class="btn link" type="button" data-view="datenschutz">Datenschutzerklärung</button>.</small>
+              <input type="text" name="email_address_check" value="" class="input--hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <input type="hidden" name="locale" value="de">
+            </form>
+          </div>
+        </div>
+      </div>
+    </section></div>
     <footer><span>© 2026 baustelle-büro · Zweisimmen · <button class="btn link" style="color:inherit;font-weight:500" data-view="impressum">Impressum</button> · <button class="btn link" style="color:inherit;font-weight:500" data-view="datenschutz">Datenschutz</button> · <button class="btn link" style="color:inherit;font-weight:500" data-view="agb">AGB</button></span><span>Methodik: Diplomarbeit HF Gartenbautechnik, F. Buchs, 2026</span></footer>
   </div>
 </div>
@@ -346,7 +408,7 @@ const PLAN = {
 
 /* ---------- Zustand ---------- */
 const KEY = 'daten-check-handwerk-v4';
-const defaults = () => ({betrieb:'', values:{}, example:false, checks:{}, tool:'fname', history:[]});
+const defaults = () => ({betrieb:'', values:{}, example:false, checks:{}, tool:'fname', history:[], nl:false});
 let state = defaults();
 try{ const raw = localStorage.getItem(KEY); if(raw) state = Object.assign(defaults(), JSON.parse(raw)); }catch(e){}
 const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} };
@@ -465,6 +527,26 @@ V.ergebnis = () => {
       </div>
     </section>`}`;
 };
+
+/* ---------- Newsletter ---------- */
+// Das Brevo-Formular steht fest im HTML und wird nur verschoben, damit Brevos Skript verbunden bleibt.
+const NL_VIEWS = ['start','ergebnis','massnahmen'];
+let notice = '';
+function placeNl(v){
+  const nl = document.getElementById('nl'); if(!nl) return;
+  if(NL_VIEWS.includes(v) && !state.nl) $('#main').appendChild(nl);
+  else document.getElementById('nl-park').appendChild(nl);
+}
+document.addEventListener('submit', e => { if(e.target && e.target.id === 'sib-form') track('newsletter-anmeldung'); }, true);
+try{
+  const q = new URLSearchParams(location.search);
+  if(q.get('newsletter') === 'bestaetigt'){
+    notice = 'Danke! Ihre Anmeldung zum Büro-Brief ist bestätigt.';
+    state.nl = true; save();
+    window.addEventListener('load', () => track('newsletter-bestaetigt'));
+    history.replaceState(null, '', location.pathname + location.hash);
+  }
+}catch(e){}
 
 /* ---------- Statistik (GoatCounter, ohne Cookies) ---------- */
 function track(name){ try{ if(window.goatcounter && window.goatcounter.count) window.goatcounter.count({path:name, title:name, event:true}); }catch(e){} }
@@ -659,7 +741,7 @@ V.impressum = () => `<div class="head"><span class="kicker">Rechtliches</span><h
   </section>`;
 
 V.datenschutz = () => `<div class="head"><span class="kicker">Rechtliches</span><h1>Datenschutzerklärung</h1></div>
-  <section class="card legal"><h2>1. Verantwortliche Stelle</h2><p>Verantwortlich für die Bearbeitung von Personendaten auf www.baustelle-buero.ch und beim Verkauf des Toolkits ist:</p><p>baustelle-büro, Florian Buchs<br>Karl Haueter-Strasse 5<br>3770 Zweisimmen<br>Schweiz<br>developer@baustelle-buero.ch</p><h2>2. Grundsatz</h2><p>Wir bearbeiten Personendaten gemäss dem schweizerischen Datenschutzgesetz (DSG). Wir bearbeiten nur die Daten, die für die Nutzung der Webseite und den Verkauf des Toolkits nötig sind.</p><h2>3. Nutzung der Web-App</h2><p>Die Selbsteinschätzung läuft vollständig in Ihrem Browser. Ihre Antworten, Checklisten, der Name des Betriebs und der Verlauf werden ausschliesslich lokal im Speicher Ihres Browsers (Local Storage) abgelegt. Diese Eingaben werden nicht an uns oder an Dritte übermittelt, und wir haben keinen Zugriff darauf.</p><p>Sie können diese Daten jederzeit löschen, indem Sie die Websitedaten für www.baustelle-buero.ch in Ihrem Browser entfernen.</p><p>Es gibt keine Benutzerkonten, keine Cookies zu Analyse- oder Werbezwecken, kein Tracking und keine Analyse-Werkzeuge. Schriften und Programmcode sind in die Seite eingebettet und werden nicht von externen Servern geladen.</p><h2>4. Hosting und Server-Protokolle</h2><p>Die Webseite wird über GitHub Pages bereitgestellt (GitHub Inc., USA). Beim Aufruf der Seite verarbeitet GitHub technisch notwendige Daten wie IP-Adresse, Zeitpunkt des Zugriffs, aufgerufene Seite und Browserangaben in Server-Protokollen. Dies dient der Auslieferung der Seite und der Sicherheit. Dabei können Daten in die USA übermittelt werden. Weitere Informationen: GitHub General Privacy Statement (docs.github.com).</p><p>Domain, DNS und E-Mail werden bei der Hostpoint AG in der Schweiz betrieben.</p><h2>5. Besucherstatistik</h2><p>Wir nutzen den Dienst GoatCounter (goatcounter.com), um zu verstehen, wie die Webseite genutzt wird. Erfasst werden die aufgerufene Seite, die verweisende Seite, Browser und Betriebssystem, Bildschirmgrösse und das aus der IP-Adresse abgeleitete Land. Zusätzlich zählen wir anonym einzelne Ereignisse wie «Einschätzung abgeschlossen», «Ergebnis geteilt» oder «Klick auf Toolkit kaufen». Ihre Antworten, Punkte und der Name des Betriebs werden dabei nicht übermittelt.</p><p>GoatCounter setzt keine Cookies und speichert keine IP-Adressen. Es werden keine persönlichen Profile erstellt.</p><h2>6. Kauf des Toolkits</h2><p>Die Zahlung wird über die Payrexx AG (Schweiz) abgewickelt. Dabei werden insbesondere Name, E-Mail-Adresse, allenfalls Rechnungsadresse sowie die Zahlungsangaben erhoben. Zahlungsdaten wie Karten- oder TWINT-Angaben werden direkt von Payrexx und den beteiligten Zahlungsdienstleistern verarbeitet. Wir erhalten keine vollständigen Zahlungsdaten.</p><p>Wir erhalten von Payrexx Name, E-Mail-Adresse und Bestelldetails. Wir verwenden diese Daten ausschliesslich, um den Vertrag abzuwickeln, Ihnen das Toolkit zuzustellen, Rückfragen zu beantworten und unsere Buchhaltung zu führen.</p><p>Die Dateien des Toolkits stellen wir Ihnen als Anhang per E-Mail zu. Der Versand erfolgt automatisch: Nach einer bestätigten Zahlung übermittelt Payrexx die Bestelldaten (Name, E-Mail-Adresse, Bestelldetails) an den Automatisierungsdienst Make (Celonis, Rechenzentrum in der EU). Make lädt die Dateien aus unserem Google-Drive-Speicher (Google, USA) und verschickt die E-Mail über unser Postfach bei der Hostpoint AG in der Schweiz. Dabei können Daten in die USA übermittelt werden.</p><h2>7. Kontakt per E-Mail</h2><p>Wenn Sie uns eine E-Mail schreiben, bearbeiten wir Ihre Angaben, um Ihre Anfrage zu beantworten. Das E-Mail-Postfach wird bei der Hostpoint AG in der Schweiz betrieben.</p><h2>8. Künstliche Intelligenz</h2><p>Auf dieser Webseite und beim Verkauf des Toolkits werden keine Dienste der künstlichen Intelligenz eingesetzt. Personendaten werden weder an Anbieter von KI-Modellen übermittelt noch mit KI ausgewertet oder für das Training von KI-Modellen verwendet.</p><h2>9. Weitergabe von Daten</h2><p>Wir geben Personendaten nur an die oben genannten Dienstleister weiter, soweit dies für die genannten Zwecke nötig ist, oder wenn wir gesetzlich dazu verpflichtet sind. Wir verkaufen keine Daten.</p><h2>10. Aufbewahrung</h2><p>Bestelldaten bewahren wir auf, solange dies für die Vertragsabwicklung nötig ist und gesetzliche Aufbewahrungspflichten bestehen. Für Geschäftsunterlagen beträgt diese Frist in der Regel zehn Jahre.</p><h2>11. Ihre Rechte</h2><p>Sie haben das Recht auf Auskunft über Ihre bei uns bearbeiteten Personendaten sowie auf Berichtigung, Löschung, Einschränkung der Bearbeitung und Herausgabe Ihrer Daten. Wenden Sie sich dazu per E-Mail an developer@baustelle-buero.ch. Sie können sich zudem beim Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten (EDÖB) beschweren.</p><h2>12. Datensicherheit</h2><p>Die Webseite wird ausschliesslich verschlüsselt über HTTPS ausgeliefert.</p><h2>13. Änderungen</h2><p>Wir können diese Datenschutzerklärung anpassen. Es gilt die auf der Webseite veröffentlichte Fassung.</p><p>Stand: 27. Oktober 2026</p></section>`;
+  <section class="card legal"><h2>1. Verantwortliche Stelle</h2><p>Verantwortlich für die Bearbeitung von Personendaten auf www.baustelle-buero.ch und beim Verkauf des Toolkits ist:</p><p>baustelle-büro, Florian Buchs<br>Karl Haueter-Strasse 5<br>3770 Zweisimmen<br>Schweiz<br>developer@baustelle-buero.ch</p><h2>2. Grundsatz</h2><p>Wir bearbeiten Personendaten gemäss dem schweizerischen Datenschutzgesetz (DSG). Wir bearbeiten nur die Daten, die für die Nutzung der Webseite und den Verkauf des Toolkits nötig sind.</p><h2>3. Nutzung der Web-App</h2><p>Die Selbsteinschätzung läuft vollständig in Ihrem Browser. Ihre Antworten, Checklisten, der Name des Betriebs und der Verlauf werden ausschliesslich lokal im Speicher Ihres Browsers (Local Storage) abgelegt. Diese Eingaben werden nicht an uns oder an Dritte übermittelt, und wir haben keinen Zugriff darauf.</p><p>Sie können diese Daten jederzeit löschen, indem Sie die Websitedaten für www.baustelle-buero.ch in Ihrem Browser entfernen.</p><p>Es gibt keine Benutzerkonten, keine Cookies zu Analyse- oder Werbezwecken, kein Tracking und keine Analyse-Werkzeuge. Schriften und Programmcode sind in die Seite eingebettet und werden nicht von externen Servern geladen.</p><h2>4. Hosting und Server-Protokolle</h2><p>Die Webseite wird über GitHub Pages bereitgestellt (GitHub Inc., USA). Beim Aufruf der Seite verarbeitet GitHub technisch notwendige Daten wie IP-Adresse, Zeitpunkt des Zugriffs, aufgerufene Seite und Browserangaben in Server-Protokollen. Dies dient der Auslieferung der Seite und der Sicherheit. Dabei können Daten in die USA übermittelt werden. Weitere Informationen: GitHub General Privacy Statement (docs.github.com).</p><p>Domain, DNS und E-Mail werden bei der Hostpoint AG in der Schweiz betrieben.</p><h2>5. Besucherstatistik</h2><p>Wir nutzen den Dienst GoatCounter (goatcounter.com), um zu verstehen, wie die Webseite genutzt wird. Erfasst werden die aufgerufene Seite, die verweisende Seite, Browser und Betriebssystem, Bildschirmgrösse und das aus der IP-Adresse abgeleitete Land. Zusätzlich zählen wir anonym einzelne Ereignisse wie «Einschätzung abgeschlossen», «Ergebnis geteilt» oder «Klick auf Toolkit kaufen». Ihre Antworten, Punkte und der Name des Betriebs werden dabei nicht übermittelt.</p><p>GoatCounter setzt keine Cookies und speichert keine IP-Adressen. Es werden keine persönlichen Profile erstellt.</p><h2>6. Newsletter «Büro-Brief»</h2><p>Für den Newsletter nutzen wir den Dienst Brevo der Sendinblue SAS, Paris, Frankreich. Die Daten werden in der EU gespeichert; Frankreich verfügt gemäss DSG über einen angemessenen Datenschutz. Damit das Anmeldeformular funktioniert, wird beim Aufruf der Seite ein Skript von Brevo geladen; dabei erhält Brevo technisch notwendige Daten wie die IP-Adresse.</p><p>Bei der Anmeldung speichern wir Ihre E-Mail-Adresse sowie Zeitpunkt und IP-Adresse von Anmeldung und Bestätigung, um die Einwilligung nachweisen zu können. Sie werden erst in die Liste aufgenommen, wenn Sie den Link in der Bestätigungs-E-Mail anklicken (Double-Opt-in). Brevo erfasst, ob ein Newsletter geöffnet und welche Links angeklickt wurden; wir nutzen diese Angaben nur, um den Newsletter zu verbessern.</p><p>Sie können den Newsletter jederzeit über den Link am Ende jeder E-Mail oder per E-Mail an developer@baustelle-buero.ch abbestellen. Danach erhalten Sie keine Newsletter mehr; auf Wunsch löschen wir Ihre Adresse vollständig.</p><h2>7. Kauf des Toolkits</h2><p>Die Zahlung wird über die Payrexx AG (Schweiz) abgewickelt. Dabei werden insbesondere Name, E-Mail-Adresse, allenfalls Rechnungsadresse sowie die Zahlungsangaben erhoben. Zahlungsdaten wie Karten- oder TWINT-Angaben werden direkt von Payrexx und den beteiligten Zahlungsdienstleistern verarbeitet. Wir erhalten keine vollständigen Zahlungsdaten.</p><p>Wir erhalten von Payrexx Name, E-Mail-Adresse und Bestelldetails. Wir verwenden diese Daten ausschliesslich, um den Vertrag abzuwickeln, Ihnen das Toolkit zuzustellen, Rückfragen zu beantworten und unsere Buchhaltung zu führen.</p><p>Die Dateien des Toolkits stellen wir Ihnen als Anhang per E-Mail zu. Der Versand erfolgt automatisch: Nach einer bestätigten Zahlung übermittelt Payrexx die Bestelldaten (Name, E-Mail-Adresse, Bestelldetails) an den Automatisierungsdienst Make (Celonis, Rechenzentrum in der EU). Make lädt die Dateien aus unserem Google-Drive-Speicher (Google, USA) und verschickt die E-Mail über unser Postfach bei der Hostpoint AG in der Schweiz. Dabei können Daten in die USA übermittelt werden.</p><h2>8. Kontakt per E-Mail</h2><p>Wenn Sie uns eine E-Mail schreiben, bearbeiten wir Ihre Angaben, um Ihre Anfrage zu beantworten. Das E-Mail-Postfach wird bei der Hostpoint AG in der Schweiz betrieben.</p><h2>9. Künstliche Intelligenz</h2><p>Auf dieser Webseite und beim Verkauf des Toolkits werden keine Dienste der künstlichen Intelligenz eingesetzt. Personendaten werden weder an Anbieter von KI-Modellen übermittelt noch mit KI ausgewertet oder für das Training von KI-Modellen verwendet.</p><h2>10. Weitergabe von Daten</h2><p>Wir geben Personendaten nur an die oben genannten Dienstleister weiter, soweit dies für die genannten Zwecke nötig ist, oder wenn wir gesetzlich dazu verpflichtet sind. Wir verkaufen keine Daten.</p><h2>11. Aufbewahrung</h2><p>Bestelldaten bewahren wir auf, solange dies für die Vertragsabwicklung nötig ist und gesetzliche Aufbewahrungspflichten bestehen. Für Geschäftsunterlagen beträgt diese Frist in der Regel zehn Jahre.</p><h2>12. Ihre Rechte</h2><p>Sie haben das Recht auf Auskunft über Ihre bei uns bearbeiteten Personendaten sowie auf Berichtigung, Löschung, Einschränkung der Bearbeitung und Herausgabe Ihrer Daten. Wenden Sie sich dazu per E-Mail an developer@baustelle-buero.ch. Sie können sich zudem beim Eidgenössischen Datenschutz- und Öffentlichkeitsbeauftragten (EDÖB) beschweren.</p><h2>13. Datensicherheit</h2><p>Die Webseite wird ausschliesslich verschlüsselt über HTTPS ausgeliefert.</p><h2>14. Änderungen</h2><p>Wir können diese Datenschutzerklärung anpassen. Es gilt die auf der Webseite veröffentlichte Fassung.</p><p>Stand: 27. Oktober 2026</p></section>`;
 
 V.agb = () => `<div class="head"><span class="kicker">Rechtliches</span><h1>Allgemeine Geschäftsbedingungen</h1></div>
   <section class="card legal"><h2>1. Geltungsbereich</h2><p>Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für den Verkauf digitaler Produkte über www.baustelle-buero.ch, insbesondere des Toolkits «Ordnung im Betrieb» (ausfüllbares PDF und Excel-Arbeitsmappe). Die kostenlose Web-App kann ohne Vertragsabschluss genutzt werden. Für sie gilt Ziffer 8 sinngemäss.</p><h2>2. Anbieter</h2><p>baustelle-büro, Florian Buchs<br>Karl Haueter-Strasse 5<br>3770 Zweisimmen<br>Schweiz<br>developer@baustelle-buero.ch</p><h2>3. Angebot und Vertragsabschluss</h2><p>Die Darstellung der Produkte auf der Webseite ist unverbindlich. Der Vertrag kommt zustande, sobald Sie die Bestellung über unseren Zahlungsanbieter Payrexx abgeschlossen und bezahlt haben. Das Angebot richtet sich in erster Linie an Unternehmen.</p><h2>4. Preise und Zahlung</h2><p>Alle Preise verstehen sich in Schweizer Franken (CHF) als einmaliger Betrag. Der Anbieter ist nicht mehrwertsteuerpflichtig, es wird keine Mehrwertsteuer ausgewiesen. Die Zahlung erfolgt über Payrexx mit den dort angebotenen Zahlungsmitteln.</p><h2>5. Lieferung</h2><p>Die Produkte werden als Anhang per E-Mail an die bei der Bestellung angegebene E-Mail-Adresse geliefert. Die Zustellung erfolgt in der Regel innerhalb von 24 Stunden, spätestens innerhalb von zwei Werktagen nach Zahlungseingang. Erhalten Sie die Dateien nicht, melden Sie sich bitte unter developer@baustelle-buero.ch.</p><h2>6. Nutzungsrechte</h2><p>Mit dem Kauf erhalten Sie ein einfaches, nicht übertragbares und zeitlich unbeschränktes Recht, die Inhalte im eigenen Betrieb zu nutzen. Sie dürfen die Vorlagen für interne Zwecke kopieren, ausdrucken und anpassen.</p><p>Nicht gestattet sind die Weitergabe, der Weiterverkauf oder die Veröffentlichung der Inhalte sowie deren Verwendung zur entgeltlichen Beratung Dritter ohne schriftliche Zustimmung des Anbieters. Alle Urheberrechte verbleiben beim Anbieter.</p><h2>7. Rücktritt und Umtausch</h2><p>Da es sich um digitale Inhalte handelt, die unmittelbar nach der Zahlung bereitgestellt werden, sind Rücktritt und Rückgabe ausgeschlossen, soweit gesetzlich zulässig. Ist eine Datei fehlerhaft oder lässt sie sich nicht öffnen, liefern wir kostenlos Ersatz.</p><h2>8. Gewährleistung und Haftung</h2><p>Die Inhalte wurden mit Sorgfalt erstellt. Sie dienen der Orientierung und ersetzen keine individuelle Beratung. Für einen bestimmten Erfolg in Ihrem Betrieb wird keine Gewähr übernommen.</p><p>Die Haftung des Anbieters ist, soweit gesetzlich zulässig, ausgeschlossen. Vorbehalten bleibt die Haftung für Vorsatz und grobe Fahrlässigkeit.</p><h2>9. Datenschutz</h2><p>Informationen zur Bearbeitung von Personendaten finden Sie in der Datenschutzerklärung unter www.baustelle-buero.ch/#datenschutz.</p><h2>10. Änderungen</h2><p>Der Anbieter kann diese AGB jederzeit anpassen. Es gilt die zum Zeitpunkt der Bestellung veröffentlichte Fassung.</p><h2>11. Anwendbares Recht und Gerichtsstand</h2><p>Es gilt Schweizer Recht unter Ausschluss des Wiener Kaufrechts (CISG). Gerichtsstand ist der Sitz des Anbieters. Vorbehalten bleiben zwingende gesetzliche Gerichtsstände für Konsumentinnen und Konsumenten.</p><p>Stand: 22. Oktober 2026</p></section>`;
@@ -674,11 +756,14 @@ function go(v, mode){
   if(v==='ergebnis' && view==='fragen' && !state.example) track('check-abgeschlossen');
   view = v;
   $('#wrap').classList.toggle('wide', v==='werkzeuge');
+  const nlEl = document.getElementById('nl'); if(nlEl) document.getElementById('nl-park').appendChild(nlEl); // vor dem Neuzeichnen in Sicherheit bringen
   $('#main').innerHTML = V[v]();
   const flow = ['fragen','ergebnis','massnahmen'];
   $('#stepper').hidden = !flow.includes(v);
   flow.forEach((k,i) => { const b = $('#st-'+k); b.className = k===v ? 'now' : (flow.indexOf(v) > i ? 'done' : ''); b.disabled = k!=='fragen' && !r.complete; });
   ['werkzeuge','verlauf','toolkit'].forEach(k => $('#nav-'+k).classList.toggle('on', v===k));
+  placeNl(v);
+  if(notice){ $('#main').insertAdjacentHTML('afterbegin', `<div class="notice" role="status">${notice}</div>`); notice = ''; }
   if(v==='werkzeuge' && state.tool==='fname') initFname();
   if(v==='ergebnis' && !state.example) updateShare();
   try{
@@ -779,6 +864,19 @@ function copyName(){
 go((location.hash||'').slice(1) || 'start', 'replace');
 </script>
 
+<script>
+  window.REQUIRED_CODE_ERROR_MESSAGE = 'Wählen Sie bitte eine Ländervorwahl aus.';
+  window.LOCALE = 'de';
+  window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = 'Bitte geben Sie eine gültige E-Mail-Adresse ein.';
+  window.REQUIRED_ERROR_MESSAGE = 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
+  window.GENERIC_INVALID_MESSAGE = 'Die Angabe ist nicht gültig. Bitte prüfen Sie sie und versuchen Sie es nochmals.';
+  window.INVALID_NUMBER = window.GENERIC_INVALID_MESSAGE;
+  window.INVALID_DATE = 'Bitte geben Sie ein gültiges Datum ein.';
+  window.REQUIRED_MULTISELECT_MESSAGE = 'Wählen Sie bitte mindestens eine Option aus.';
+  window.translation = {common:{selectedList:'{quantity} Liste ausgewählt', selectedLists:'{quantity} Listen ausgewählt', selectedOption:'{quantity} ausgewählt', selectedOptions:'{quantity} ausgewählt'}};
+  var AUTOHIDE = Boolean(0);
+</script>
+<script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
 <script data-goatcounter="https://baustelle-buero.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
