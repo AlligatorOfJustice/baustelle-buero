@@ -153,6 +153,12 @@ main{display:flex;flex-direction:column;gap:24px}
 .frow-st{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
 .fseg{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
 .fseg i{height:8px;border-radius:4px;background:var(--line)}
+.info{position:relative;width:22px;height:22px;padding:0;margin-left:7px;vertical-align:2px;display:inline-grid;place-items:center;border:1.5px solid color-mix(in srgb,var(--primary) 55%,var(--line));border-radius:50%;background:var(--surface);color:var(--primary);font:700 13px/1 var(--f-body);cursor:pointer}
+.info::before{content:'';position:absolute;inset:-8px}
+.info:hover,.info[aria-expanded="true"]{border-color:var(--primary);background:var(--primary-soft)}
+.finfo{grid-column:1/-1;margin:0;font-size:14.5px;line-height:1.45;color:var(--muted);max-width:60ch}
+.q .finfo{margin-top:-6px}
+@media (max-width:480px){.frow{grid-template-columns:1fr;gap:4px}}
 .fseg i.f{background:var(--primary)}
 .fseg i.weak{background:var(--accent)}
 .msg{border-left:4px solid var(--accent);background:var(--surface);padding:14px 16px;border-radius:0 10px 10px 0}
@@ -310,6 +316,13 @@ const IMPRESSUM = {name:'baustelle-büro, Florian Buchs', street:'Karl Haueter-S
 
 /* ---------- Inhalte (Gratis-Teil) ---------- */
 const FIELDS = {org:'Datenorganisation', lead:'Datenleadership', komp:'Datenkompetenz'};
+const FIELD_INFO = {
+  org:'Wie Daten im Betrieb abgelegt sind, wer dafür zuständig ist und wie Informationen zwischen Büro und Baustelle fliessen.',
+  lead:'Wie stark die Führung den Umgang mit Daten einfordert und Entscheide auf Zahlen statt auf Bauchgefühl stützt.',
+  komp:'Wie gut das Team Daten versteht, Fehler erkennt und Informationen verständlich weitergibt.'
+};
+const infoBtn = (k, id) => `<button class="info" data-info aria-expanded="false" aria-controls="${id}" aria-label="Was heisst ${FIELDS[k]}?">?</button>`;
+const infoTxt = (k, id) => `<p class="finfo" id="${id}" hidden>${FIELD_INFO[k]}</p>`;
 const INDICATORS = [
   {id:'ablage', field:'org', name:'Ablagestruktur und Dokumentation', steps:['Keine Struktur, keine Standards','Einzelne Regeln vorhanden, informell','Struktur definiert (schriftlich), teilweise genutzt','Struktur verbindlich und wird eingehalten','Ablage und Dokumentation werden aktiv gepflegt und laufend verbessert']},
   {id:'zust', field:'org', name:'Zuständigkeiten für Daten', steps:['Keine Zuständigkeiten definiert','Zuständigkeiten informell bekannt','Zuständigkeiten definiert (schriftlich), teilweise umgesetzt','Zuständigkeiten klar zugewiesen und eingehalten','Zuständigkeiten überprüft und bei Bedarf angepasst']},
@@ -392,7 +405,8 @@ V.fragen = () => {
   const opts = ind.steps.map((t,i) => `<button class="opt" data-pick="${i+1}" aria-pressed="${val===i+1}"><span class="n">${i+1}</span><span>${t}</span></button>`).join('');
   const last = qi === INDICATORS.length - 1;
   return `<section class="q">
-    <div class="qmeta"><b>${FIELDS[ind.field]}</b><span class="muted">Frage ${qi+1} von 7</span></div>
+    <div class="qmeta"><b>${FIELDS[ind.field]}${infoBtn(ind.field, 'fi-q')}</b><span class="muted">Frage ${qi+1} von 7</span></div>
+    ${infoTxt(ind.field, 'fi-q')}
     <div class="qbar">${bar}</div>
     <h2>${ind.name}</h2>
     <p class="muted">Welche Beschreibung trifft auf Ihren Betrieb am ehesten zu?</p>
@@ -413,7 +427,7 @@ V.ergebnis = () => {
   const segs = RANGES.map((rg,i) => `<div><i class="${i+1===r.stage?'cur':i+1<r.stage?'f':''}"></i><b>${i+1}</b><span>${rg}</span></div>`).join('');
   const fieldsHtml = fks.map(k => {
     const f = r.fields[k], isWeak = weak.includes(k) && minSt < 5;
-    return `<div class="frow"><span class="frow-name">${FIELDS[k]}</span><span class="frow-st">Stufe ${f.stage} · ${f.sum} von ${f.max} Punkten</span>
+    return `<div class="frow"><span class="frow-name">${FIELDS[k]}${infoBtn(k, 'fi-'+k)}</span><span class="frow-st">Stufe ${f.stage} · ${f.sum} von ${f.max} Punkten</span>${infoTxt(k, 'fi-'+k)}
       <div class="fseg" aria-hidden="true">${[1,2,3,4,5].map(i => `<i class="${i<=f.stage?(isWeak?'f weak':'f'):''}"></i>`).join('')}</div></div>`;
   }).join('');
   const msg = hidden.length
@@ -699,6 +713,9 @@ document.addEventListener('click', e => {
   }
   if(t.closest('#go-example')){ track('beispiel-angesehen'); state.values = {...EXAMPLE_VALUES}; state.example = true; save(); return go('ergebnis'); }
   if(t.closest('#go-new') || t.closest('#own')){ state.values = {}; state.example = false; state.checks = {}; qi = 0; save(); return go(t.closest('#own') ? 'start' : 'fragen'); }
+  const inf = t.closest('[data-info]');
+  if(inf){ const el = document.getElementById(inf.getAttribute('aria-controls')); const open = inf.getAttribute('aria-expanded') !== 'true';
+    inf.setAttribute('aria-expanded', open); if(el) el.hidden = !open; return; }
   const pick = t.closest('[data-pick]');
   if(pick){
     state.values[INDICATORS[qi].id] = +pick.dataset.pick; state.example = false; save();
