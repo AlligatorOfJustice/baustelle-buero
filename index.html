@@ -166,6 +166,16 @@ main{display:flex;flex-direction:column;gap:24px}
 .msg b{display:block;margin-bottom:2px}
 .tag{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:14.5px;background:var(--primary-soft);border-radius:8px;padding:10px 14px}
 .notice{display:flex;gap:10px;align-items:center;font-size:15px;font-weight:500;background:var(--primary-soft);border-left:4px solid var(--ok);border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:18px}
+.about{margin-top:28px;padding:22px;display:grid;grid-template-columns:120px minmax(0,1fr);gap:22px;align-items:start}
+.about img{width:120px;height:120px;border-radius:50%;object-fit:cover;display:block;border:3px solid var(--surface);box-shadow:0 0 0 1.5px var(--line)}
+.about-txt{display:flex;flex-direction:column;gap:8px;min-width:0}
+.about-txt h2{font-size:22px;font-weight:800}
+.about-txt p{margin:0;max-width:62ch}
+.about-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.about-short{display:flex;gap:12px;align-items:center;padding:12px 14px;background:var(--bg);border-radius:10px}
+.about-short img{width:56px;height:56px;border-radius:50%;object-fit:cover;flex:none}
+.about-short p{margin:0;font-size:14.5px;line-height:1.45}
+@media (max-width:560px){.about{grid-template-columns:1fr;gap:14px}.about img{width:96px;height:96px}}
 /* Newsletter (Brevo-Formular, eigenes Design) */
 #nl-park{display:none}
 .nl{margin-top:28px}
@@ -421,6 +431,25 @@ const buyBtn = (label='Toolkit kaufen') => SHOP.url
   ? `<a class="btn buy" href="${esc(SHOP.url)}" target="_blank" rel="noopener">${label} · ${esc(SHOP.price)}</a>`
   : `<span class="btn buy" aria-disabled="true">Toolkit bald erhältlich</span>`;
 
+/* ---------- Über mich ---------- */
+const ME = {linkedin:'https://www.linkedin.com/in/florian-buchs-429490126', email:'developer@baustelle-buero.ch'};
+const aboutLinks = () => `<div class="about-links"><a class="btn small" href="mailto:${ME.email}">E-Mail schreiben</a><a class="btn small" href="${ME.linkedin}" target="_blank" rel="noopener">LinkedIn</a></div>`;
+const about = () => `<section class="card about" aria-labelledby="about-h">
+    <img src="img/florian.jpg" width="120" height="120" alt="Florian Buchs" loading="lazy">
+    <div class="about-txt">
+      <span class="kicker">Wer steckt dahinter?</span>
+      <h2 id="about-h">Florian Buchs, Zweisimmen</h2>
+      <p>Gelernter Koch, Landschaftsgärtner und Gartenbautechniker HF – und schon als Kind am Computer. Der Büro-Check basiert auf meiner Diplomarbeit über Datenmanagement in Handwerksbetrieben.</p>
+      <p>Meine wichtigste Erkenntnis: Ordnung im Büro ist selten ein technisches Problem, sondern ein menschliches.</p>
+      <p class="muted">Fragen oder Feedback? Schreib mir direkt.</p>
+      ${aboutLinks()}
+    </div>
+  </section>`;
+const aboutShort = () => `<div class="about-short">
+    <img src="img/florian.jpg" width="56" height="56" alt="Florian Buchs" loading="lazy">
+    <p><b>Entwickelt von Florian Buchs</b>, Gartenbautechniker HF, auf Basis seiner Diplomarbeit über Datenmanagement in Handwerksbetrieben. Fragen vor dem Kauf? <a href="mailto:${ME.email}">Schreib mir</a>.</p>
+  </div>`;
+
 /* ---------- Bewertung ---------- */
 const stageAvg = a => a < 1.8 ? 1 : a < 2.65 ? 2 : a < 3.5 ? 3 : a < 4.35 ? 4 : 5;
 const stageTotal = s => s <= 12 ? 1 : s <= 18 ? 2 : s <= 24 ? 3 : s <= 30 ? 4 : 5;
@@ -458,7 +487,8 @@ V.start = () => {
       <li><span class="n">2</span><b>Ergebnis</b><span>Reifegrad 1 bis 5, gesamt und für Organisation, Leadership und Kompetenz.</span></li>
       <li><span class="n">3</span><b>Massnahmen</b><span>Deine drei wichtigsten Baustellen mit ersten Schritten.</span></li>
     </ol>
-  </section>`;
+  </section>
+  ${about()}`;
 };
 
 V.fragen = () => {
@@ -704,6 +734,7 @@ V.toolkit = () => `<div class="head"><span class="kicker tk">Toolkit «Ordnung i
       <li><span class="ic">6</span><div><b>Excel-Arbeitsmappe</b><span>Rechnet die Auswertung automatisch, prüft die RACI-Matrix und hält Massnahmen und Verlauf fest.</span></div></li>
     </ul>
     <div class="tk-price"><b>${esc(SHOP.price)}</b><span class="muted">einmalig, ausfüllbares PDF und Excel, Zustellung per E-Mail</span>${buyBtn()}</div>
+    ${aboutShort()}
     <p class="muted" style="font-size:13.5px">Mit dem Kauf gelten die <button class="btn link" data-view="agb">AGB</button>. Informationen zum Datenschutz findest du in der <button class="btn link" data-view="datenschutz">Datenschutzerklärung</button>.</p>
   </section>
   <div class="compare">
