@@ -90,7 +90,9 @@ open(OUT + 'double-opt-in.html', 'w', encoding='utf-8').write(doi)
 # 2) Willkommen (finale Bestätigung)
 welcome = shell('Willkommen beim Büro-Brief', 'Das erwartet dich, und ein erster Tipp für heute.',
  row(kicker('Büro-Brief') + h1('Schön, dass du dabei bist') +
-     p('Ich bin Florian, Gärtner HF mit IT-Hintergrund. In meiner Diplomarbeit habe ich untersucht, wie Handwerksbetriebe mit ihren Daten umgehen. Daraus ist baustelle-büro entstanden: weniger Büro nach Feierabend.') +
+     p('Ich bin Florian: gelernter Koch, danach Landschaftsgärtner und Gartenbautechniker HF. Ich arbeite gern mit den Händen, und schon als Kind habe ich Computer zusammengebaut und eingerichtet.') +
+     p('Im Handwerk habe ich eine Szene immer wieder erlebt: Ein Kunde ruft an und fragt nach der Offerte. Wurde sie schon verschickt? Oder noch gar nicht erstellt? Niemand weiss es, weil das Wissen bei der Person liegt, die gerade auf der Baustelle ist.') +
+     p('In meiner Diplomarbeit habe ich mit Handwerksbetrieben darüber gesprochen. Das Überraschende: Fast allen geht es gleich. Und das Problem ist selten die Technik, sondern wie man im Team mit Daten umgeht. Genau da setzt baustelle-büro an.') +
      h2('Was dich erwartet') +
      ul(['Alle zwei Wochen ein Tipp, den du in 15 Minuten umsetzen kannst', 'Vorlagen, die du direkt im Betrieb brauchen kannst', 'Kein Fachchinesisch und keine Werbeflut']) +
      '<!-- PLATZ FÜR GRATIS-VORLAGE: Sobald die Ordnerstruktur bereit ist, hier eine Box mit Download-Button einfügen. -->\n' +
