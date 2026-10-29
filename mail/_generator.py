@@ -81,7 +81,7 @@ doi = shell('Bitte bestätige deine Anmeldung', 'Ein Klick, dann bist du dabei.'
  row(kicker('Büro-Brief') + h1('Fast geschafft') +
      p('Danke für dein Interesse am Büro-Brief von baustelle-büro. Bitte bestätige mit einem Klick, dass du ihn erhalten möchtest.') +
      btn('Anmeldung bestätigen', '{{ doubleoptin }}') +
-     p(f'Mit dem Klick willigst du ein, dass wir dir den Büro-Brief alle zwei Wochen per E-Mail schicken. Du kannst ihn jederzeit mit einem Klick abbestellen. Mehr dazu in der <a href="{SITE}/#datenschutz" style="color:{PRI};">Datenschutzerklärung</a>.', size=14, color=MUTED) +
+     p(f'Mit dem Klick willigst du ein, dass wir dir den Büro-Brief einmal im Monat per E-Mail schicken. Du kannst ihn jederzeit mit einem Klick abbestellen. Mehr dazu in der <a href="{SITE}/#datenschutz" style="color:{PRI};">Datenschutzerklärung</a>.', size=14, color=MUTED) +
      p('Du hast dich nicht angemeldet? Dann ignoriere diese E-Mail einfach. Ohne Bestätigung erhältst du keine weiteren Nachrichten.', size=14, color=MUTED, mb=24) +
      sign(), pad='28px 40px 32px 40px'),
  f'{ADDR}<br>' + flinks(('baustelle-buero.ch', SITE), ('Impressum', SITE + '/#impressum'), ('Datenschutz', SITE + '/#datenschutz')))
@@ -94,7 +94,7 @@ welcome = shell('Willkommen beim Büro-Brief', 'Das erwartet dich, und ein erste
      p('Im Handwerk habe ich eine Szene immer wieder erlebt: Ein Kunde ruft an und fragt nach der Offerte. Wurde sie schon verschickt? Oder noch gar nicht erstellt? Niemand weiss es, weil das Wissen bei der Person liegt, die gerade auf der Baustelle ist.') +
      p('In meiner Diplomarbeit habe ich mit Handwerksbetrieben darüber gesprochen. Das Überraschende: Fast allen geht es gleich. Und das Problem ist selten die Technik, sondern wie man im Team mit Daten umgeht. Genau da setzt baustelle-büro an.') +
      h2('Was dich erwartet') +
-     ul(['Alle zwei Wochen ein Tipp, den du in 15 Minuten umsetzen kannst', 'Vorlagen, die du direkt im Betrieb brauchen kannst', 'Kein Fachchinesisch und keine Werbeflut']) +
+     ul(['Einmal im Monat ein Tipp, den du in 15 Minuten umsetzen kannst', 'Vorlagen, die du direkt im Betrieb brauchen kannst', 'Kein Fachchinesisch und keine Werbeflut']) +
      '<!-- PLATZ FÜR GRATIS-VORLAGE: Sobald die Ordnerstruktur bereit ist, hier eine Box mit Download-Button einfügen. -->\n' +
      box(kicker('Dein erster Tipp') + h2('Dateinamen, die man wiederfindet') +
          p('Benenne jede Datei nach dem gleichen Muster: Datum, Projekt, Inhalt, Version. Zum Beispiel <strong>261027_Gartenumbau-Mueller_Offerte_v1.pdf</strong>. So findest du jede Datei in Sekunden, auch die vom letzten Jahr.') +
