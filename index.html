@@ -3,14 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="baustelle-büro: kostenlose Selbsteinschätzung für Ordnung im Betrieb. Für Handwerksbetriebe.">
-<title>baustelle-büro</title>
+<meta name="description" content="Gratis Büro-Check für Handwerksbetriebe: 7 Fragen, 5 Minuten. Du siehst, wo dein Betrieb bei Ablage, Zuständigkeiten und Infofluss steht und wo du anfangen solltest.">
+<title>Büro-Check für Handwerksbetriebe – gratis in 5 Minuten | baustelle-büro</title>
 <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="de_CH">
 <meta property="og:url" content="https://www.baustelle-buero.ch/">
 <meta property="og:title" content="Wie aufgeräumt ist dein Baustellenbüro?">
 <meta property="og:description" content="Kostenloser Büro-Check für Handwerksbetriebe: in wenigen Minuten zum Reifegrad, mit Massnahmen für die nächsten drei Monate.">
+<meta property="og:site_name" content="baustelle-büro">
+<meta property="og:image" content="https://www.baustelle-buero.ch/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Wie aufgeräumt ist dein Baustellenbüro? Reifegrad ? von 5 – gratis Büro-Check für Handwerksbetriebe">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://www.baustelle-buero.ch/">
 <link rel="icon" href="/favicon.ico" sizes="48x48">
 <link rel="icon" href="/icons/favicon-192.png" type="image/png" sizes="192x192">
@@ -140,11 +146,26 @@ main{display:flex;flex-direction:column;gap:24px}
 .field label{font-weight:700;font-size:14px}
 .input{border:1.5px solid var(--line);background:var(--surface);border-radius:8px;padding:10px 12px;width:100%;min-width:0}
 .input:focus{border-color:var(--primary);outline:none}
-.howto{list-style:none;margin:6px 0 0;padding:20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.howto li{display:flex;flex-direction:column;gap:4px;min-width:0}
-.howto .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary);font-weight:700;font-size:13px}
-.howto b{font-family:var(--f-head);font-size:18px}
-.howto span:last-child{font-size:14.5px;color:var(--muted)}
+.first{padding:20px;display:flex;flex-direction:column;gap:12px;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft),var(--shadow)}
+.first h2{font-size:clamp(21px,3.6vw,26px);font-weight:800;letter-spacing:-.01em}
+.first .qmeta b{white-space:nowrap}
+.first .opt{font-size:15.5px;padding:11px 14px}
+.trust{display:flex;gap:12px;align-items:center;font-size:14.5px;color:var(--muted)}
+.trust img{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 0 0 1.5px var(--line)}
+.trust b{color:var(--ink)}
+.preview{width:100%;text-align:left;cursor:pointer;padding:20px;display:flex;flex-direction:column;gap:12px;font:inherit;color:inherit}
+.preview:hover{border-color:var(--primary)}
+.pv-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 16px}
+.pv-top b{font-family:var(--f-head);font-size:22px;font-weight:800}
+.pv-top .muted{font-size:14px}
+.pv-segs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.pv-segs i{height:10px;border-radius:5px;background:var(--line)}
+.pv-segs i.f{background:var(--primary)}
+.pv-segs i.cur{background:var(--accent)}
+.pv-rows{display:grid;gap:10px}
+.pv-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 12px;font-size:14.5px}
+.preview .btn.link{align-self:flex-start}
+.share .field{max-width:none}
 
 /* Frage */
 .q{display:flex;flex-direction:column;gap:18px}
@@ -340,7 +361,6 @@ footer{border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:va
 
 @media (max-width:860px){ .picker{grid-template-columns:minmax(0,1fr)} }
 @media (max-width:600px){
-  .howto{grid-template-columns:1fr}
   .form,.fakeform,.compare{grid-template-columns:1fr}
   .logo em{display:none}
   .sec button{padding:7px 8px;font-size:14px}
@@ -480,8 +500,8 @@ const stageAvg = a => a < 1.8 ? 1 : a < 2.65 ? 2 : a < 3.5 ? 3 : a < 4.35 ? 4 : 
 const stageTotal = s => s <= 12 ? 1 : s <= 18 ? 2 : s <= 24 ? 3 : s <= 30 ? 4 : 5;
 const NEXT = {1:13, 2:19, 3:25, 4:31};
 const RANGES = ['7–12','13–18','19–24','25–30','31–35'];
-function score(){
-  const v = state.values, fields = {};
+function score(v = state.values){
+  const fields = {};
   for(const fk in FIELDS){
     const inds = INDICATORS.filter(i => i.field === fk);
     const sum = inds.reduce((a,i) => a + (v[i.id]||0), 0);
@@ -496,23 +516,46 @@ function score(){
 /* ---------- Ansichten ---------- */
 const V = {};
 
+// Startseite: Frage 1 steht direkt im Hero (ein Tipp, und man ist drin), darunter Vertrauen und eine Ergebnis-Vorschau.
+const trust = () => `<div class="trust"><img src="img/florian.jpg" width="44" height="44" alt=""><p>Entwickelt von <b>Florian Buchs</b> aus Zweisimmen, auf Basis seiner Diplomarbeit HF. Ohne Anmeldung, deine Antworten bleiben in deinem Browser.</p></div>`;
+const preview = () => {
+  const r = score(EXAMPLE_VALUES), fks = Object.keys(FIELDS);
+  const minSt = Math.min(...fks.map(k => r.fields[k].stage));
+  const rows = fks.map(k => { const f = r.fields[k];
+    return `<span class="pv-row"><b>${FIELDS[k]}</b><span class="muted">Stufe ${f.stage}</span><span class="fseg">${[1,2,3,4,5].map(i => `<i class="${i<=f.stage?(f.stage===minSt?'f weak':'f'):''}"></i>`).join('')}</span></span>`; }).join('');
+  return `<button class="card preview" id="go-example" type="button" aria-label="Beispielergebnis ansehen">
+    <span class="kicker">So sieht dein Ergebnis aus</span>
+    <span class="pv-top"><b>Reifegrad ${r.stage} von 5</b><span class="muted">Beispiel: Gartenbaubetrieb, 15 Mitarbeitende</span></span>
+    <span class="pv-segs" aria-hidden="true">${[1,2,3,4,5].map(i => `<i class="${i===r.stage?'cur':i<r.stage?'f':''}"></i>`).join('')}</span>
+    <span class="pv-rows">${rows}</span>
+    <span class="btn link">Ganzes Beispiel mit Massnahmen ansehen</span>
+  </button>`;
+};
 V.start = () => {
   const r = score(), started = r.answered > 0 && !state.example;
-  return `<section class="hero">
-    <span class="kicker">Kostenlose Selbsteinschätzung für Handwerksbetriebe</span>
+  const intro = `<span class="kicker">Gratis Büro-Check für Handwerksbetriebe</span>
     <h1>Wie aufgeräumt ist dein Baustellenbüro?</h1>
-    <p class="lead">7 Fragen, rund 5 Minuten. Danach siehst du den Reifegrad deines Betriebs und die ersten konkreten Schritte.</p>
-    <div class="field"><label for="betrieb">Name des Betriebs (optional)</label><input class="input" id="betrieb" value="${esc(state.example ? '' : state.betrieb)}" placeholder="z.B. Muster Gartenbau AG"></div>
+    <p class="lead">Lieferscheine suchen, Rapporte nachtragen, Wissen nur im Kopf vom Chef? 7 kurze Fragen zeigen dir in 5 Minuten, wo dein Betrieb steht und wo du anfangen solltest.</p>`;
+  if(started) return `<section class="hero">${intro}
     <div class="actions">
-      <button class="btn primary" id="go-start">${started ? (r.complete ? 'Zum Ergebnis' : 'Einschätzung fortsetzen') : 'Einschätzung starten'}</button>
-      ${started ? `<button class="btn" id="go-new">Neu beginnen</button>` : `<button class="btn" id="go-example">Beispiel ansehen</button>`}
+      <button class="btn primary" id="go-start">${r.complete ? 'Zum Ergebnis' : `Büro-Check fortsetzen (${r.answered} von 7)`}</button>
+      <button class="btn" id="go-new">Neu beginnen</button>
     </div>
-    <ol class="howto card">
-      <li><span class="n">1</span><b>Einschätzen</b><span>Pro Frage die Beschreibung wählen, die am ehesten zutrifft.</span></li>
-      <li><span class="n">2</span><b>Ergebnis</b><span>Reifegrad 1 bis 5, gesamt und für Organisation, Leadership und Kompetenz.</span></li>
-      <li><span class="n">3</span><b>Massnahmen</b><span>Deine drei wichtigsten Baustellen mit ersten Schritten.</span></li>
-    </ol>
+    ${trust()}
   </section>
+  ${about()}`;
+  const ind = INDICATORS[0];
+  const opts = ind.steps.map((s,i) => `<button class="opt" data-first="${i+1}" aria-pressed="false"><span class="n">${i+1}</span><span>${s}</span></button>`).join('');
+  return `<section class="hero">${intro}
+    <div class="card first" role="group" aria-labelledby="first-h">
+      <div class="qmeta"><b>Frage 1 von 7</b><span class="muted">ca. 5 Minuten</span></div>
+      <h2 id="first-h">Wie sind Pläne, Offerten, Rapporte und Fotos bei euch abgelegt?</h2>
+      <p class="muted">Tipp auf die Beschreibung, die am ehesten zutrifft. Danach geht es direkt weiter.</p>
+      <div class="opts">${opts}</div>
+    </div>
+    ${trust()}
+  </section>
+  ${preview()}
   ${about()}`;
 };
 
@@ -552,7 +595,7 @@ V.ergebnis = () => {
     : minSt < 5 ? `<b>Grösster Hebel: ${weak.map(k => FIELDS[k]).join(' und ')}.</b>Dieses Handlungsfeld hat die tiefste Stufe.` : `<b>Alle Handlungsfelder auf Stufe 5.</b>Ziel ist jetzt, das Niveau zu halten.`;
   const toNext = r.stage < 5 ? `Noch ${NEXT[r.stage]-r.total} Punkte bis Stufe ${r.stage+1}` : 'Höchster Reifegrad';
   return `${state.example ? `<div class="tag"><span><b>Beispiel:</b> fiktiver Gartenbaubetrieb mit 15 Mitarbeitenden</span><button class="btn link" id="own">Eigene Einschätzung starten</button></div>` : ''}
-    <div class="head"><span class="kicker">${state.example ? 'Beispielergebnis' : esc(state.betrieb || 'Dein Ergebnis')}</span><h1>Reifegrad ${r.stage} von 5</h1></div>
+    <div class="head"><span class="kicker" id="res-kicker">${state.example ? 'Beispielergebnis' : esc(state.betrieb.trim() || 'Dein Ergebnis')}</span><h1>Reifegrad ${r.stage} von 5</h1></div>
     <div class="card score">
       <div class="score-top"><div class="big">${r.total}<small>von 35 Punkten</small></div><span class="muted">${toNext}</span></div>
       <div class="track"><span class="marker" style="left:${pos}%"></span><div class="track-segs">${segs}</div></div>
@@ -570,7 +613,8 @@ V.ergebnis = () => {
       <div class="share-txt">
         <h2 id="share-h">Ergebnis teilen</h2>
         <p class="muted">Zeig dein Ergebnis im Team oder bei Berufskollegen – und finde heraus, wo andere Betriebe stehen.</p>
-        ${state.betrieb.trim() ? `<label class="chk"><input type="checkbox" id="share-name"> Name des Betriebs im Bild zeigen</label>` : ''}
+        <div class="field"><label for="betrieb">Name des Betriebs (optional)</label><input class="input" id="betrieb" value="${esc(state.betrieb)}" placeholder="z.B. Muster Gartenbau AG" autocomplete="organization"></div>
+        <label class="chk"><input type="checkbox" id="share-name" ${state.betrieb.trim() ? '' : 'disabled'}> Name des Betriebs im Bild zeigen</label>
         <div class="actions">
           <button class="btn primary" id="share-go" hidden>Teilen</button>
           <a class="btn" id="share-wa" href="${shareWa(false)}" target="_blank" rel="noopener">WhatsApp</a>
@@ -837,7 +881,7 @@ window.addEventListener('popstate', e => {
   else go((location.hash||'').slice(1) || 'start', 'replace');
 });
 
-let advanceT;
+let advanceT, shareT;
 document.addEventListener('click', e => {
   const t = e.target;
   const nav = t.closest('[data-view]');
@@ -851,6 +895,15 @@ document.addEventListener('click', e => {
     if(state.example){ state.values = {}; state.example = false; }
     if(score().complete) return go('ergebnis');
     qi = Math.max(0, INDICATORS.findIndex(i => !state.values[i.id])); save(); return go('fragen');
+  }
+  const fp = t.closest('[data-first]');
+  if(fp){
+    if(state.example){ state.values = {}; state.example = false; }
+    state.values[INDICATORS[0].id] = +fp.dataset.first; save(); track('check-gestartet');
+    document.querySelectorAll('[data-first]').forEach(o => o.setAttribute('aria-pressed', o===fp));
+    clearTimeout(advanceT);
+    advanceT = setTimeout(() => { qi = 1; go('fragen'); }, 280);
+    return;
   }
   if(t.closest('#go-example')){ track('beispiel-angesehen'); state.values = {...EXAMPLE_VALUES}; state.example = true; save(); return go('ergebnis'); }
   if(t.closest('#go-new') || t.closest('#own')){ state.values = {}; state.example = false; state.checks = {}; qi = 0; save(); return go(t.closest('#own') ? 'start' : 'fragen'); }
@@ -887,7 +940,12 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('input', e => {
   const t = e.target;
-  if(t.id === 'betrieb'){ state.betrieb = t.value; save(); }
+  if(t.id === 'betrieb'){
+    state.betrieb = t.value; save();
+    const k = $('#res-kicker'); if(k) k.textContent = state.betrieb.trim() || 'Dein Ergebnis';
+    const c = $('#share-name'); if(c) c.disabled = !state.betrieb.trim();
+    clearTimeout(shareT); shareT = setTimeout(updateShare, 300);
+  }
   if(t.id && t.id.startsWith('fn-')) renderFname();
 });
 document.addEventListener('change', e => {
