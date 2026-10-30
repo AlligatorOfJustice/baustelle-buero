@@ -548,12 +548,27 @@ V.start = () => {
   const intro = `<span class="kicker">Gratis Büro-Check für Handwerksbetriebe</span>
     <h1>Wie aufgeräumt ist dein Baustellenbüro?</h1>
     <p class="lead">Lieferscheine suchen, Rapporte nachtragen, Wissen nur im Kopf vom Chef? 7 kurze Fragen zeigen dir in 5 Minuten, wo dein Betrieb steht und wo du anfangen solltest.</p>`;
-  if(started) return `<section class="hero">${intro}
+  // Wiederkehrende Besucher: kein Verkaufstext und keine doppelte Vorstellung, sondern direkt zurück zum eigenen Stand.
+  if(started && r.complete) return `<section class="hero">
+    <span class="kicker">Willkommen zurück</span>
+    <h1>Dein Büro: Reifegrad ${r.stage} von 5</h1>
+    <p class="lead">Dein Ergebnis und deine drei wichtigsten Baustellen sind gespeichert. Mach den Check in drei Monaten nochmals, dann siehst du, was sich verbessert hat.</p>
     <div class="actions">
-      <button class="btn primary" id="go-start">${r.complete ? 'Zum Ergebnis' : `Büro-Check fortsetzen (${r.answered} von 7)`}</button>
-      <button class="btn" id="go-new">Neu beginnen</button>
+      <button class="btn primary" id="go-start">Zum Ergebnis</button>
+      <button class="btn" data-view="massnahmen">Massnahmen</button>
+      <button class="btn link" id="go-new">Neu beginnen</button>
     </div>
-    ${trust()}
+  </section>
+  ${consult()}
+  ${about()}`;
+  if(started) return `<section class="hero">
+    <span class="kicker">Gratis Büro-Check für Handwerksbetriebe</span>
+    <h1>Weiter, wo du aufgehört hast</h1>
+    <p class="lead">Du hast ${r.answered} von 7 Fragen beantwortet. Noch etwa ${Math.max(1, Math.round((7 - r.answered) * 0.7))} Minuten bis zu deinem Ergebnis.</p>
+    <div class="actions">
+      <button class="btn primary" id="go-start">Büro-Check fortsetzen</button>
+      <button class="btn link" id="go-new">Neu beginnen</button>
+    </div>
   </section>
   ${about()}`;
   const ind = INDICATORS[0];
