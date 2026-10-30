@@ -138,15 +138,15 @@ FOLGE_FOOTER = (f'Du erhältst diese E-Mail, weil du das Toolkit «Ordnung im Be
 def folge(nr, title, preheader, inner):
     return shell(title, preheader, row(kicker(f'Toolkit «Ordnung im Betrieb» · {nr} von 3') + inner + sign(), pad='28px 40px 32px 40px'), FOLGE_FOOTER)
 
-f1 = folge(1, 'Wo du mit dem Toolkit anfängst', 'Drei Schritte, eine Stunde, in dieser Reihenfolge.',
-  h1('Wo du anfängst') +
+f1 = folge(1, 'Eine Massnahme, diese Woche', 'Nicht alles auf einmal. Eine Sache, die in einer Stunde erledigt ist.',
+  h1('Eine Massnahme, diese Woche') +
   p(f'{HALLO}') +
-  p('Danke, dass du das Toolkit gekauft hast. Damit es nicht im Download-Ordner liegen bleibt, hier die Reihenfolge, die sich bewährt. Rechne mit etwa einer Stunde.') +
-  ol(['<strong>Standort festhalten.</strong> Öffne die Excel-Arbeitsmappe, trag im Blatt «Start» deinen Betrieb ein und im Blatt «Reifegrad» deine Einschätzung. Die Auswertung rechnet sich selbst.',
-      '<strong>Nur drei Baustellen.</strong> Schau dir die drei tiefsten Werte an und lies nur die Merkblätter dazu. Alles andere hat Zeit.',
-      '<strong>Drei Massnahmen festlegen.</strong> Wähl pro Baustelle eine Massnahme und trag sie im Blatt «Massnahmen» ein, mit Name und Datum. Drei reichen für den Anfang.']) +
+  p('Du hast das Toolkit jetzt seit zwei Tagen. Vielleicht hast du schon reingeschaut, vielleicht liegt es noch im Download-Ordner. Beides ist normal. Damit es nicht dort bleibt, nimm dir diese Woche genau eine Sache vor:') +
+  ol(['<strong>Eine Massnahme wählen,</strong> die du in höchstens einer Stunde erledigen kannst. Zum Beispiel: eine Ablageregel festlegen oder bestimmen, wer Offerten verschickt.',
+      '<strong>Name und Datum eintragen,</strong> im Blatt «Massnahmen» der Excel-Arbeitsmappe. Was kein Datum hat, passiert nicht.',
+      '<strong>Dem Team sagen,</strong> beim Znüni oder in der nächsten Besprechung. Zwei Sätze reichen: was sich ändert und ab wann.']) +
   box(kicker('Tipp') + h2('Mach es nicht allein') +
-      p('Druck das Reifegradmodell aus und lass zwei Leute aus dem Team die gleichen Fragen beantworten. Wo eure Antworten auseinandergehen, liegt meist das eigentliche Problem.')) +
+      p('Lass zwei Leute aus dem Team die gleichen Fragen im Reifegradmodell beantworten. Wo eure Antworten auseinandergehen, liegt meist das eigentliche Problem.')) +
   p('Hast du keine Dateien erhalten oder lässt sich etwas nicht öffnen? Antworte einfach auf diese Mail, dann schicke ich sie dir nochmals.') +
   p('In ein paar Tagen zeige ich dir, wie du mit dem Team in 30 Minuten klärst, wer wofür zuständig ist.', mb=24))
 open(OUT + 'toolkit-folge-1.html', 'w', encoding='utf-8').write(f1)
@@ -166,18 +166,20 @@ f2 = folge(2, 'Wer macht eigentlich was?', 'Zuständigkeiten klären, in 30 Minu
   p('Nächste Woche geht es darum, wie du dranbleibst, damit das Ganze nicht nach drei Wochen wieder einschläft.', mb=24))
 open(OUT + 'toolkit-folge-2.html', 'w', encoding='utf-8').write(f2)
 
-f3 = folge(3, 'Damit es nicht wieder einschläft', 'Zwei kleine Gewohnheiten, die den Unterschied machen.',
+CAL_ON = 'https://cal.com/baustelle-buero/buero-check-online' + UTM
+CAL_VO = 'https://cal.com/baustelle-buero/buero-check-vor-ort' + UTM
+f3 = folge(3, 'Damit es nicht wieder einschläft', 'Zwei kleine Gewohnheiten, und Hilfe, wenn du sie willst.',
   h1('Damit es nicht wieder einschläft') +
   p(f'{HALLO}') +
   p('Nach zwei Wochen lässt der Schwung oft nach. Das ist normal. Zwei Dinge helfen, dass die Ordnung bleibt:') +
-  h2('1. Eine Übergabe fix regeln') +
-  p('Nimm eines der Übergabeformulare, zum Beispiel «Auftragsstart», und nutz es beim nächsten Auftrag. Nur eines, nur einmal. Wenn es sich bewährt, kommt das nächste dazu.') +
-  h2('2. Jetzt einen Termin in drei Monaten setzen') +
-  p('Trag dir heute einen Termin für die Quartalsüberprüfung ein. Der Leitfaden im Toolkit führt dich durch die Stunde. Mach danach den Büro-Check nochmals und trag das Ergebnis im Blatt «Verlauf» ein. So siehst du schwarz auf weiss, was sich verbessert hat.') +
-  btn('Zum Büro-Check', SITE + '/' + UTM) +
-  box(kicker('Eine Bitte') + h2('Was hat geholfen, was fehlt?') +
-      p('Antworte mit zwei, drei Sätzen auf diese Mail. Ich lese jede Antwort und verbessere das Toolkit damit.') +
-      p(f'Und kennst du jemanden, dem es ähnlich geht? Der Büro-Check ist gratis. Leite einfach diese Mail weiter oder schick den Link <a href="{SITE}/{UTM}" style="color:{PRI};font-weight:700;">baustelle-buero.ch</a>.')) +
+  ul(['<strong>Eine Übergabe fix regeln:</strong> Nimm das Formular «Auftragsstart» und nutz es beim nächsten Auftrag. Nur eines, nur einmal.',
+      '<strong>Den nächsten Check jetzt eintragen:</strong> Setz dir heute einen Termin in drei Monaten. Der Leitfaden im Toolkit führt dich durch die Stunde.']) +
+  box(kicker('Büro-Check 1:1') + h2('Lieber gemeinsam anschauen?') +
+      p('Manchmal hilft ein Blick von aussen. In einem Online-Termin von 60 Minuten schauen wir, wo es in deinem Büro hakt. Danach bekommst du einen schriftlichen Plan für die nächsten drei Monate.') +
+      p('<strong>CHF&nbsp;330.</strong> Als Toolkit-Käufer rechne ich dir die CHF&nbsp;29 an, du zahlst also CHF&nbsp;301.') +
+      btn('Online-Termin wählen', CAL_ON) +
+      p(f'Lieber bei dir im Betrieb, mit dem Team? Dann wähl einen <a href="{CAL_VO}" style="color:{PRI};font-weight:700;">Termin vor Ort</a>.', size=14, color=MUTED, mb=16)) +
+  p('Und eine Bitte: Was hat dir am Toolkit geholfen, was fehlt? Antworte mit zwei, drei Sätzen auf diese Mail. Ich lese jede Antwort.') +
   p(f'Das war die letzte Mail dieser Reihe. Wenn du weiterhin Tipps möchtest: Einmal im Monat erscheint der <a href="{SITE}/{UTM}#nl" style="color:{PRI};font-weight:700;">Büro-Brief</a>.', mb=24))
 open(OUT + 'toolkit-folge-3.html', 'w', encoding='utf-8').write(f3)
 print('ok')
