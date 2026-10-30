@@ -126,4 +126,58 @@ brief = shell('Büro-Brief', '[Vorschautext: ein Satz, der neugierig macht]',
  flinks(('Abmelden', '{{ unsubscribe }}'), ('Im Browser ansehen', '{{ mirror }}'), ('Impressum', SITE + '/#impressum')) +
  f'<br><br>{ADDR}')
 open(OUT + 'buero-brief-vorlage.html', 'w', encoding='utf-8').write(brief)
+
+# 4) Mailfolge nach Toolkit-Kauf (Brevo-Automation, Liste «Toolkit-Käufer»: Tag 2, 7, 14)
+UTM = '?utm_source=brevo&utm_medium=email&utm_campaign=toolkit-folge'
+HALLO = 'Hallo {{ contact.VORNAME | default : "zusammen" }}'
+def ol(items):
+    lis = ''.join(f'<tr><td valign="top" style="width:30px;padding:0 0 12px 0;"><span style="display:inline-block;width:22px;height:22px;border-radius:11px;background:{PRI};color:#FFFFFF;font-family:{BODY};font-size:13px;line-height:22px;font-weight:700;text-align:center;">{i}</span></td><td style="padding:0 0 12px 0;font-family:{BODY};font-size:16px;line-height:24px;color:{INK};">{t}</td></tr>' for i, t in enumerate(items, 1))
+    return f'<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 16px 0;">{lis}</table>'
+FOLGE_FOOTER = (f'Du erhältst diese E-Mail, weil du das Toolkit «Ordnung im Betrieb» gekauft hast. Diese Reihe umfasst drei kurze Mails.<br>' +
+    flinks(('Abmelden', '{{ unsubscribe }}'), ('Impressum', SITE + '/#impressum'), ('Datenschutz', SITE + '/#datenschutz')) + f'<br><br>{ADDR}')
+def folge(nr, title, preheader, inner):
+    return shell(title, preheader, row(kicker(f'Toolkit «Ordnung im Betrieb» · {nr} von 3') + inner + sign(), pad='28px 40px 32px 40px'), FOLGE_FOOTER)
+
+f1 = folge(1, 'Wo du mit dem Toolkit anfängst', 'Drei Schritte, eine Stunde, in dieser Reihenfolge.',
+  h1('Wo du anfängst') +
+  p(f'{HALLO}') +
+  p('Danke, dass du das Toolkit gekauft hast. Damit es nicht im Download-Ordner liegen bleibt, hier die Reihenfolge, die sich bewährt. Rechne mit etwa einer Stunde.') +
+  ol(['<strong>Standort festhalten.</strong> Öffne die Excel-Arbeitsmappe, trag im Blatt «Start» deinen Betrieb ein und im Blatt «Reifegrad» deine Einschätzung. Die Auswertung rechnet sich selbst.',
+      '<strong>Nur drei Baustellen.</strong> Schau dir die drei tiefsten Werte an und lies nur die Merkblätter dazu. Alles andere hat Zeit.',
+      '<strong>Drei Massnahmen festlegen.</strong> Wähl pro Baustelle eine Massnahme und trag sie im Blatt «Massnahmen» ein, mit Name und Datum. Drei reichen für den Anfang.']) +
+  box(kicker('Tipp') + h2('Mach es nicht allein') +
+      p('Druck das Reifegradmodell aus und lass zwei Leute aus dem Team die gleichen Fragen beantworten. Wo eure Antworten auseinandergehen, liegt meist das eigentliche Problem.')) +
+  p('Hast du keine Dateien erhalten oder lässt sich etwas nicht öffnen? Antworte einfach auf diese Mail, dann schicke ich sie dir nochmals.') +
+  p('In ein paar Tagen zeige ich dir, wie du mit dem Team in 30 Minuten klärst, wer wofür zuständig ist.', mb=24))
+open(OUT + 'toolkit-folge-1.html', 'w', encoding='utf-8').write(f1)
+
+f2 = folge(2, 'Wer macht eigentlich was?', 'Zuständigkeiten klären, in 30 Minuten und mit einer Tabelle.',
+  h1('Wer macht eigentlich was?') +
+  p(f'{HALLO}') +
+  p('Die Offerte, die niemand verschickt hat, ist fast nie ein Technikproblem. Meist fühlt sich einfach niemand zuständig. Alle helfen mit, aber keiner steht dafür gerade.') +
+  h2('So gehst du mit der RACI-Vorlage vor') +
+  ol(['<strong>Fünf Aufgaben wählen,</strong> die jede Woche vorkommen. Zum Beispiel: Offerte schreiben, Material bestellen, Rapport abgeben, Rechnung stellen, Reklamation bearbeiten.',
+      '<strong>30 Minuten mit dem Team.</strong> Tragt pro Aufgabe ein, wer sie erledigt (R) und wer dafür geradesteht (A).',
+      '<strong>Pro Aufgabe genau ein A.</strong> Stehen zwei Namen da, ist es am Ende niemand.',
+      '<strong>Prüfen lassen.</strong> Das Blatt «RACI» in der Excel-Arbeitsmappe zeigt dir, wo ein A fehlt oder doppelt vergeben ist.']) +
+  box(kicker('Tipp') + h2('Erst das Beispiel anschauen') +
+      p('Im Toolkit findest du eine ausgefüllte RACI-Matrix aus einem Gartenbaubetrieb. Sie zeigt, wie konkret die Einträge sein dürfen.')) +
+  p('Häng die fertige Tabelle dort auf, wo das Team sie sieht: im Büro, im Pausenraum oder im Baustellenwagen.') +
+  p('Nächste Woche geht es darum, wie du dranbleibst, damit das Ganze nicht nach drei Wochen wieder einschläft.', mb=24))
+open(OUT + 'toolkit-folge-2.html', 'w', encoding='utf-8').write(f2)
+
+f3 = folge(3, 'Damit es nicht wieder einschläft', 'Zwei kleine Gewohnheiten, die den Unterschied machen.',
+  h1('Damit es nicht wieder einschläft') +
+  p(f'{HALLO}') +
+  p('Nach zwei Wochen lässt der Schwung oft nach. Das ist normal. Zwei Dinge helfen, dass die Ordnung bleibt:') +
+  h2('1. Eine Übergabe fix regeln') +
+  p('Nimm eines der Übergabeformulare, zum Beispiel «Auftragsstart», und nutz es beim nächsten Auftrag. Nur eines, nur einmal. Wenn es sich bewährt, kommt das nächste dazu.') +
+  h2('2. Jetzt einen Termin in drei Monaten setzen') +
+  p('Trag dir heute einen Termin für die Quartalsüberprüfung ein. Der Leitfaden im Toolkit führt dich durch die Stunde. Mach danach den Büro-Check nochmals und trag das Ergebnis im Blatt «Verlauf» ein. So siehst du schwarz auf weiss, was sich verbessert hat.') +
+  btn('Zum Büro-Check', SITE + '/' + UTM) +
+  box(kicker('Eine Bitte') + h2('Was hat geholfen, was fehlt?') +
+      p('Antworte mit zwei, drei Sätzen auf diese Mail. Ich lese jede Antwort und verbessere das Toolkit damit.') +
+      p(f'Und kennst du jemanden, dem es ähnlich geht? Der Büro-Check ist gratis. Leite einfach diese Mail weiter oder schick den Link <a href="{SITE}/{UTM}" style="color:{PRI};font-weight:700;">baustelle-buero.ch</a>.')) +
+  p(f'Das war die letzte Mail dieser Reihe. Wenn du weiterhin Tipps möchtest: Einmal im Monat erscheint der <a href="{SITE}/{UTM}#nl" style="color:{PRI};font-weight:700;">Büro-Brief</a>.', mb=24))
+open(OUT + 'toolkit-folge-3.html', 'w', encoding='utf-8').write(f3)
 print('ok')
