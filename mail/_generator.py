@@ -215,7 +215,7 @@ bb[1] = brief_nr(1, 'Eine Ablage für alles', 'Ein Ort, sieben Ordner und das Su
       '<strong>06_Vorlagen</strong> (Offerte, Rapport, Briefpapier)',
       '<strong>99_Archiv</strong> (abgeschlossene Jahre)'],
       'Die Nummern sorgen dafür, dass die Ordner auf jedem Gerät in der gleichen Reihenfolge erscheinen.') +
-  p('Wo sucht ihr am häufigsten? Antworte mir mit einem Satz, ich lese jede Antwort.', mb=24))
+  '')
 
 bb[2] = brief_nr(2, 'Ein Name pro Aufgabe', 'Wenn alle zuständig sind, ist es am Ende niemand.',
   p('«Ich dachte, du machst das.» Dieser Satz kostet im Handwerk mehr Zeit als jede Software. Material wird doppelt bestellt, eine Offerte bleibt liegen, eine Reklamation wartet eine Woche auf Antwort.') +
@@ -232,7 +232,7 @@ bb[2] = brief_nr(2, 'Ein Name pro Aufgabe', 'Wenn alle zuständig sind, ist es a
       '<strong>Reklamationen:</strong> Beat (Stv. Marco)',
       '<strong>Fahrzeuge und Geräte:</strong> Luca (Stv. Marco)'],
       'Mehr braucht es nicht. Ein Blatt Papier am Anschlagbrett reicht.', kick='Beispiel') +
-  p('Wie viele Aufgaben hatten bei euch bisher keinen Namen? Antworte mir, mich interessiert die Zahl.', mb=24))
+  '')
 
 bb[3] = brief_nr(3, 'Fünf Fragen vor dem Auftragsstart', 'Damit die Baustelle weiss, was das Büro weiss.',
   p('Im Büro steht alles in der Offerte. Auf der Baustelle kommt davon oft nur ein Teil an: Die Zufahrt ist enger als gedacht, der Kunde wollte doch die andere Platte und niemand wusste, dass der Nachbar informiert werden muss.') +
@@ -245,7 +245,6 @@ bb[3] = brief_nr(3, 'Fünf Fragen vor dem Auftragsstart', 'Damit die Baustelle w
       '<strong>4.</strong> Welches Material kommt wann und von wem?',
       '<strong>5.</strong> Was wurde mündlich abgemacht und steht nicht in der Offerte?'],
       'Die fünfte Frage ist die wichtigste. Mündliche Abmachungen sorgen bei der Schlussrechnung oft für Diskussionen.') +
-  p('Welche Frage fehlt bei euch? Antworte mir, ich sammle sie.', mb=16) +
   ps_toolkit(f'P.S. Im Toolkit «Ordnung im Betrieb» gibt es dazu drei ausfüllbare Übergabeformulare: Auftragsstart, Änderung während der Ausführung und Rückmeldung ans Büro. Hast du das Toolkit schon? Dann nimm das Formular «Auftragsstart», es deckt diese fünf Fragen ab. <a href="{SITE}/{BB}#toolkit" style="color:{PRI};font-weight:700;">Toolkit ansehen</a>'))
 
 bb[4] = brief_nr(4, 'Änderungen in vier Teilen', 'Wer eine Änderung annimmt, sagt es allen. Am besten so.',
@@ -259,8 +258,8 @@ bb[4] = brief_nr(4, 'Änderungen in vier Teilen', 'Wer eine Änderung annimmt, s
       '<strong>Wer muss es wissen?</strong>'],
       'Beispiel: Platten grau statt beige · Kunde Müller am Telefon · ab sofort · Equipe Baustelle und Materialbestellung') +
   p('Dazu eine Regel: Wer die Änderung annimmt, schickt die Notiz. Sofort, nicht am Abend.') +
-  p('Das hilft auch beim Geld. Was schriftlich festgehalten ist, lässt sich am Schluss sauber verrechnen.') +
-  p('Wie erfahrt ihr heute von Änderungen? Antworte mir kurz.', mb=24))
+  p('Das hilft auch beim Geld. Was schriftlich festgehalten ist, lässt sich am Schluss sauber verrechnen.', mb=24) +
+  '')
 
 bb[5] = brief_nr(5, 'Drei Zahlen reichen', 'Kein Controlling. Drei Zahlen, einmal im Monat.',
   p('Viele Betriebe entscheiden aus dem Bauch. Das ist nicht falsch, Erfahrung zählt. Aber das Bauchgefühl irrt sich gern bei Fragen wie: Lohnt sich diese Art von Auftrag? Wo geht uns Zeit verloren?') +
@@ -276,7 +275,7 @@ bb[5] = brief_nr(5, 'Drei Zahlen reichen', 'Kein Controlling. Drei Zahlen, einma
       f'<strong>Überfällige Rechnungen:</strong> CHF {LUECKE}',
       f'<strong>Was mache ich deshalb diesen Monat anders?</strong> {LUECKE}'],
       'Die letzte Zeile ist die wichtigste. Eine Zahl, aus der nichts folgt, ist nur Statistik.') +
-  p('Welche Zahl schaust du dir heute schon an? Antworte mir.', mb=24))
+  '')
 
 bb[6] = brief_nr(6, 'Zeit für einen zweiten Blick', 'Fünf Minuten Büro-Check und der Vergleich mit dem letzten Mal.',
   p('Du bekommst den Büro-Brief jetzt seit einigen Monaten. Zeit für einen Blick zurück: Was hat sich bei euch verändert und was ist liegen geblieben?') +
@@ -291,7 +290,7 @@ bb[6] = brief_nr(6, 'Zeit für einen zweiten Blick', 'Fünf Minuten Büro-Check 
       p('In einem Online-Termin von 60 Minuten gehen wir dein Ergebnis zusammen durch und schauen, wo es im Büro hakt. Danach bekommst du einen schriftlichen Plan für die nächsten drei Monate.') +
       btn('Online-Termin wählen', 'https://cal.com/baustelle-buero/buero-check-online' + BB) +
       p(f'Lieber bei dir im Betrieb, mit dem Team? Dann wähl einen <a href="https://cal.com/baustelle-buero/buero-check-vor-ort{BB}" style="color:{PRI};font-weight:700;">Termin vor Ort</a>. Preise und Ablauf findest du auf der <a href="{SITE}/{BB}#toolkit" style="color:{PRI};font-weight:700;">Website</a>.', size=14, color=MUTED, mb=16)) +
-  p('Was hat sich bei euch seit dem ersten Check verändert? Ich freue mich über ein paar Sätze.', mb=24))
+  '')
 
 bb[7] = brief_nr(7, 'Baustellenfotos, die man wiederfindet', 'Fotos gehören in den Projektordner und nicht aufs Handy.',
   p('Auf jedem Handy im Betrieb liegen Hunderte von Baustellenfotos. Wenn der Kunde zwei Jahre später fragt, wo genau die Leitung durchgeht, beginnt die Suche: Wer war damals dort? Hat er das Handy noch?') +
@@ -306,7 +305,7 @@ bb[7] = brief_nr(7, 'Baustellenfotos, die man wiederfindet', 'Fotos gehören in 
       '<strong>Bei Änderungen:</strong> was anders gemacht wurde als geplant',
       '<strong>Nachher:</strong> das fertige Werk aus den gleichen Blickwinkeln wie vorher'],
       'Fotos von bestehenden Schäden ersparen dir später manche Diskussion darüber, wer was verursacht hat.') +
-  p('Wie viele Baustellenfotos liegen gerade auf deinem Handy? Antworte mir, ich bin gespannt.', mb=24))
+  '')
 
 bb[8] = brief_nr(8, 'Der Wochenstart in zehn Minuten', 'Drei feste Punkte am Montagmorgen und die Woche läuft ruhiger.',
   p('Am Montagmorgen fährt jeder auf seine Baustelle. Was das Büro über die Woche weiss, erfährt das Team oft erst, wenn es zu spät ist: Der Kunde ist am Donnerstag nicht da, das Material kommt einen Tag später, der Bagger ist doppelt verplant.') +
@@ -317,8 +316,8 @@ bb[8] = brief_nr(8, 'Der Wochenstart in zehn Minuten', 'Drei feste Punkte am Mon
       '<strong>2. Was hat sich geändert?</strong> Neue Abmachungen, verschobene Lieferungen, Abwesenheiten.',
       '<strong>3. Wo klemmt es?</strong> Fehlende Infos, fehlendes Material, offene Entscheide. Hier nur benennen, gelöst wird später.'],
       'Beim dritten Punkt kommt das Wichtigste auf den Tisch. Halte fest, wer sich bis wann darum kümmert.') +
-  p('Mit mehreren Equipen reicht es, wenn die Vorarbeiter dabei sind. Sie geben die Infos danach an ihr Team weiter.') +
-  p('Habt ihr schon einen festen Wochenstart? Wie läuft er bei euch? Antworte mir kurz.', mb=24))
+  p('Mit mehreren Equipen reicht es, wenn die Vorarbeiter dabei sind. Sie geben die Infos danach an ihr Team weiter.', mb=24) +
+  '')
 
 bb[9] = brief_nr(9, 'Rapporte, die stimmen', 'Fehler erkennen, bevor sie in der Rechnung landen.',
   p('Der Rapport sagt acht Stunden, die Arbeit war nach sechs fertig. Oder umgekehrt: Zwei Stunden Aufräumen fehlen, weil niemand daran gedacht hat. Solche Fehler fallen meist erst bei der Rechnung auf. Im schlechtesten Fall bemerkt sie der Kunde.') +
@@ -330,7 +329,6 @@ bb[9] = brief_nr(9, 'Rapporte, die stimmen', 'Fehler erkennen, bevor sie in der 
       '<strong>Ist es plausibel?</strong> Würde jemand anderes für die gleiche Arbeit ungefähr gleich lange brauchen?'],
       'Wenn etwas nicht stimmt: nicht selbst korrigieren, sondern nachfragen. So lernt das Team, worauf es ankommt.') +
   p('Dazu eine Gewohnheit: Sprich Fehler, die mehrmals vorkommen, einmal im Monat im Team an, ohne Namen. Meist liegt es am Formular oder an einer unklaren Regel und nicht an der Person.') +
-  p('Welcher Fehler passiert bei euren Rapporten am häufigsten? Antworte mir.', mb=16) +
   ps_toolkit(f'P.S. Im Toolkit «Ordnung im Betrieb» findest du im Merkblatt Datenkompetenz weitere Massnahmen zu Datenqualität und Fehlern. Dazu kommt das Formular «Rückmeldung ans Büro», mit dem die Baustelle Mehraufwand und Abweichungen gleich festhält. <a href="{SITE}/{BB}#toolkit" style="color:{PRI};font-weight:700;">Toolkit ansehen</a>'))
 
 bb[10] = brief_nr(10, 'Sag, was du erwartest', 'Fünf klare Sätze von der Führung wirken mehr als jede Software.',
@@ -348,7 +346,7 @@ bb[10] = brief_nr(10, 'Sag, was du erwartest', 'Fünf klare Sätze von der Führ
   ol(['<strong>In der nächsten Teamsitzung vorstellen</strong> und begründen: Warum ist uns das wichtig?',
       '<strong>Nach einem Monat nachfragen:</strong> Was klappt, was nicht? Regeln, die nicht funktionieren, darfst du ändern.',
       '<strong>Dranbleiben:</strong> Weise freundlich, aber jedes Mal darauf hin, wenn eine Regel nicht eingehalten wird.']) +
-  p('Welche Regel würdest du als erste aufschreiben? Antworte mir.', mb=24))
+  '')
 
 bb[11] = brief_nr(11, 'Die erste Woche für neue Leute', 'Was Neue in der ersten Woche über eure Abläufe wissen müssen.',
   p('Neue Mitarbeitende lernen schnell, wie man auf der Baustelle arbeitet. Wo etwas abgelegt wird, wie ein Rapport aussieht und wer wofür zuständig ist, lernen sie dagegen oft nur nebenbei. Nach ein paar Monaten hat jeder sein eigenes System.') +
@@ -362,7 +360,7 @@ bb[11] = brief_nr(11, 'Die erste Woche für neue Leute', 'Was Neue in der ersten
       '<strong>Regeln:</strong> die wichtigsten Regeln erklärt, jeweils mit dem Warum.',
       '<strong>Ansprechperson:</strong> eine Person bestimmt, die in den ersten Wochen Fragen beantwortet.'],
       'Die Liste hilft auch bei Lernenden, Temporären und Saisonkräften.') +
-  p('Wie arbeitet ihr neue Leute heute ein? Antworte mir, ich sammle gute Beispiele.', mb=24))
+  '')
 
 bb[12] = brief_nr(12, 'Ein Jahr Büro-Brief', 'Was sich in einem Jahr verändert hat und was als Nächstes kommt.',
   p('Seit bald einem Jahr bekommst du den Büro-Brief: elf Tipps zu Ablage, Zuständigkeiten, Übergaben, Zahlen und Führung. Danke, dass du dabeigeblieben bist.') +
@@ -378,7 +376,7 @@ bb[12] = brief_nr(12, 'Ein Jahr Büro-Brief', 'Was sich in einem Jahr verändert
       p('In einem Online-Termin von 60 Minuten schauen wir auf dein Jahr zurück und legen die nächsten Schritte fest. Danach bekommst du einen schriftlichen Plan für die nächsten drei Monate.') +
       btn('Online-Termin wählen', 'https://cal.com/baustelle-buero/buero-check-online' + BB) +
       p(f'Lieber bei dir im Betrieb, mit dem Team? Dann wähl einen <a href="https://cal.com/baustelle-buero/buero-check-vor-ort{BB}" style="color:{PRI};font-weight:700;">Termin vor Ort</a>. Preise und Ablauf findest du auf der <a href="{SITE}/{BB}#toolkit" style="color:{PRI};font-weight:700;">Website</a>.', size=14, color=MUTED, mb=16)) +
-  p('Der Büro-Brief geht weiter, mit neuen Themen und Neuigkeiten von baustelle-büro. Was war für dich der nützlichste Tipp in diesem Jahr? Ich freue mich über eine kurze Antwort.', mb=24))
+  p('Der Büro-Brief geht weiter, mit neuen Themen und Neuigkeiten von baustelle-büro.', mb=24))
 
 for nr, html in bb.items():
     open(OUT + f'buero-brief-{nr}.html', 'w', encoding='utf-8').write(html)
