@@ -182,4 +182,121 @@ f3 = folge(3, 'Damit es nicht wieder einschläft', 'Zwei kleine Gewohnheiten, un
   p('Und eine Bitte: Was hat dir am Toolkit geholfen, was fehlt? Antworte mit zwei, drei Sätzen auf diese Mail. Ich lese jede Antwort.') +
   p(f'Das war die letzte Mail dieser Reihe. Wenn du weiterhin Tipps möchtest: Einmal im Monat erscheint der <a href="{SITE}/{UTM}#nl" style="color:{PRI};font-weight:700;">Büro-Brief</a>.', mb=24))
 open(OUT + 'toolkit-folge-3.html', 'w', encoding='utf-8').write(f3)
+
+# 5) Büro-Brief als Reihe nach der Anmeldung (Brevo-Automation, monatlich, ohne Datumsbezug)
+BB = '?utm_source=brevo&utm_medium=email&utm_campaign=buero-brief'
+BB_FOOTER = (f'Du erhältst diese E-Mail, weil du dich auf baustelle-buero.ch für den Büro-Brief angemeldet hast.<br>' +
+    flinks(('Abmelden', '{{ unsubscribe }}'), ('Im Browser ansehen', '{{ mirror }}'), ('Impressum', SITE + '/#impressum'), ('Datenschutz', SITE + '/#datenschutz')) +
+    f'<br><br>{ADDR}')
+def vorlage(title, lines, note=''):
+    body = '<br>'.join(lines)
+    return box(kicker('Zum Abschreiben') + h2(title) + p(body) + (p(note, size=14, color=MUTED) if note else ''))
+def ps_toolkit(kaeufer, andere):
+    # Bedingung im Text: Kontakte mit Attribut TOOLKIT = "ja" sehen den ersten Satz, alle anderen den zweiten.
+    return p('{% if contact.TOOLKIT == "ja" %}' + kaeufer + '{% else %}' + andere + '{% endif %}', size=14, color=MUTED, mb=24)
+def brief_nr(nr, title, preheader, inner):
+    return shell(title, preheader, row(kicker(f'Büro-Brief Nr. {nr}') + h1(title) + p(HALLO) + inner + sign(), pad='28px 40px 32px 40px'), BB_FOOTER)
+LUECKE = '________'
+
+bb = {}
+bb[1] = brief_nr(1, 'Eine Ablage für alles', 'Ein Ort, sieben Ordner, und das Suchen hat ein Ende.',
+  p('Die Offerte steckt in einem Mailanhang, der Plan auf dem Handy des Vorarbeiters, die Fotos auf dem Tablet und die neuste Version auf dem Computer im Büro. Gesucht wird trotzdem jede Woche.') +
+  kicker('Tipp') + h2('Leg einen Ort fest, an dem alles landet') +
+  p('Wo das ist, spielt eine kleinere Rolle: ein Server im Büro, OneDrive, Google Drive oder Dropbox. Entscheidend ist, dass es nur einen Ort gibt und alle darauf zugreifen können, auch vom Handy aus.') +
+  ol(['<strong>Ort bestimmen.</strong> Nimm, was ihr schon habt. Ein Wechsel lohnt sich selten.',
+      '<strong>Grundgerüst anlegen.</strong> Wenige Hauptordner reichen, ein Vorschlag steht unten.',
+      '<strong>Ab heute alles Neue dort ablegen.</strong> Altes musst du nicht auf einmal umräumen. Verschieb es, wenn du es das nächste Mal brauchst.']) +
+  vorlage('Ordnerstruktur für einen Handwerksbetrieb', [
+      '<strong>01_Betrieb</strong> (Verträge, Versicherungen, Fahrzeuge, Geräte)',
+      '<strong>02_Personal</strong>',
+      '<strong>03_Finanzen</strong> (Buchhaltung, Rechnungen, Mahnungen)',
+      '<strong>04_Projekte</strong>, pro Auftrag ein Ordner wie <strong>261027_Mueller_Gartenumbau</strong>, darin Offerte, Pläne, Fotos, Rapporte, Rechnung',
+      '<strong>05_Lieferanten</strong>',
+      '<strong>06_Vorlagen</strong> (Offerte, Rapport, Briefpapier)',
+      '<strong>99_Archiv</strong> (abgeschlossene Jahre)'],
+      'Die Nummern sorgen dafür, dass die Ordner auf jedem Gerät in der gleichen Reihenfolge erscheinen.') +
+  p('Wo sucht ihr am häufigsten? Antworte mir mit einem Satz, ich lese jede Antwort.', mb=24))
+
+bb[2] = brief_nr(2, 'Ein Name pro Aufgabe', 'Wenn alle zuständig sind, ist es am Ende niemand.',
+  p('«Ich dachte, du machst das.» Dieser Satz kostet im Handwerk mehr Zeit als jede Software. Material wird doppelt bestellt, eine Offerte bleibt liegen, eine Reklamation wartet eine Woche auf Antwort.') +
+  kicker('Tipp') + h2('Schreib zu jeder wiederkehrenden Aufgabe genau einen Namen') +
+  p('Gemeint ist nicht die Person, die mithilft, sondern die, die dafür geradesteht. Andere dürfen mitarbeiten, aber eine Person sorgt dafür, dass es erledigt wird.') +
+  ol(['<strong>Zehn Aufgaben sammeln,</strong> die jede Woche oder jeden Monat anfallen.',
+      '<strong>Pro Aufgabe einen Namen eintragen,</strong> dazu eine Stellvertretung für Ferien und Krankheit.',
+      '<strong>Die Liste aufhängen</strong> oder in den Team-Chat stellen. Sie gilt erst, wenn alle sie gesehen haben.']) +
+  vorlage('Zuständigkeitsliste', [
+      f'<strong>Offerten schreiben und nachfassen:</strong> {LUECKE}, Stv. {LUECKE}',
+      f'<strong>Anfragen per Telefon und Mail beantworten:</strong> {LUECKE}, Stv. {LUECKE}',
+      f'<strong>Material bestellen:</strong> {LUECKE}, Stv. {LUECKE}',
+      f'<strong>Rapporte einsammeln und prüfen:</strong> {LUECKE}, Stv. {LUECKE}',
+      f'<strong>Rechnungen stellen:</strong> {LUECKE}, Stv. {LUECKE}',
+      f'<strong>Zahlungseingang und Mahnungen:</strong> {LUECKE}, Stv. {LUECKE}',
+      f'<strong>Reklamationen beantworten:</strong> {LUECKE}, Stv. {LUECKE}',
+      f'<strong>Fahrzeuge und Geräte (Service, Prüfungen):</strong> {LUECKE}, Stv. {LUECKE}',
+      f'<strong>Ablage aufräumen:</strong> {LUECKE}, Stv. {LUECKE}',
+      f'<strong>Lehrlinge und Einsatzplanung:</strong> {LUECKE}, Stv. {LUECKE}']) +
+  p('Wie viele Aufgaben hatten bei euch bisher keinen Namen? Antworte mir, mich interessiert die Zahl.', mb=24))
+
+bb[3] = brief_nr(3, 'Fünf Fragen vor dem Auftragsstart', 'Damit die Baustelle weiss, was das Büro weiss.',
+  p('Im Büro steht alles in der Offerte. Auf der Baustelle kommt davon oft nur ein Teil an: Die Zufahrt ist enger als gedacht, der Kunde wollte doch die andere Platte, und niemand wusste, dass der Nachbar informiert werden muss.') +
+  kicker('Tipp') + h2('Klär vor jedem Auftrag fünf Fragen, schriftlich') +
+  p('Fünf Minuten im Büro sparen auf der Baustelle oft eine Stunde. Wichtig ist, dass die Antworten dort landen, wo das Team sie sieht: im Projektordner oder als Foto im Team-Chat.') +
+  vorlage('Übergabe Büro an Baustelle', [
+      '<strong>1.</strong> Was genau wird gemacht, und was ausdrücklich nicht?',
+      '<strong>2.</strong> Wer ist beim Kunden Ansprechperson, mit Telefonnummer?',
+      '<strong>3.</strong> Was ist besonders: Zufahrt, Schlüssel, Nachbarn, Tiere, Leitungen?',
+      '<strong>4.</strong> Welches Material kommt wann, und von wem?',
+      '<strong>5.</strong> Was wurde mündlich abgemacht und steht nicht in der Offerte?'],
+      'Die fünfte Frage ist die wichtigste. Mündliche Abmachungen sorgen bei der Schlussrechnung oft für Diskussionen.') +
+  p('Welche Frage fehlt bei euch? Antworte mir, ich sammle sie.', mb=16) +
+  ps_toolkit('P.S. Im Toolkit hast du dafür das Formular «Auftragsstart». Es deckt diese fünf Fragen ab und noch ein paar mehr.',
+             f'P.S. Im Toolkit «Ordnung im Betrieb» gibt es dazu drei ausfüllbare Übergabeformulare: Auftragsstart, Änderung während der Ausführung und Rückmeldung ans Büro. <a href="{SITE}/{BB}#toolkit" style="color:{PRI};font-weight:700;">Toolkit ansehen</a>'))
+
+bb[4] = brief_nr(4, 'Änderungen in vier Teilen', 'Wer eine Änderung annimmt, sagt es allen. Am besten so.',
+  p('Der Kunde ruft im Büro an: Die Platten sollen doch grau sein, nicht beige. Das Büro sagt zu und bestellt um. Auf der Baustelle verlegt das Team am nächsten Morgen die beigen Platten, die noch auf dem Platz liegen.') +
+  kicker('Tipp') + h2('Halte jede Änderung fest, immer gleich aufgebaut') +
+  p('Dafür brauchst du weder ein Formular noch eine Software. Eine kurze Nachricht im Team-Chat oder ein Zettel im Projektordner reicht, solange sie immer die gleichen vier Teile hat.') +
+  vorlage('Änderungsnotiz', [
+      '<strong>Was ändert sich?</strong>',
+      '<strong>Wer hat es entschieden?</strong>',
+      '<strong>Ab wann gilt es?</strong>',
+      '<strong>Wer muss es wissen?</strong>'],
+      'Beispiel: Platten grau statt beige · Kunde Müller am Telefon · ab sofort · Equipe Baustelle und Materialbestellung') +
+  p('Dazu eine Regel: Wer die Änderung annimmt, schickt die Notiz. Sofort, nicht am Abend.') +
+  p('Das hilft auch beim Geld. Was schriftlich festgehalten ist, lässt sich am Schluss sauber verrechnen.') +
+  p('Wie erfahrt ihr heute von Änderungen? Antworte mir kurz.', mb=24))
+
+bb[5] = brief_nr(5, 'Drei Zahlen reichen', 'Kein Controlling. Drei Zahlen, einmal im Monat.',
+  p('Viele Betriebe entscheiden aus dem Bauch. Das ist nicht falsch, Erfahrung zählt. Aber das Bauchgefühl irrt sich gern bei Fragen wie: Lohnt sich diese Art von Auftrag? Wo geht uns Zeit verloren?') +
+  kicker('Tipp') + h2('Schau einmal im Monat auf drei Zahlen') +
+  ol(['<strong>Offene Offerten:</strong> Wie viele sind draussen, und wie viele davon sind älter als zwei Wochen, ohne dass jemand nachgefragt hat?',
+      '<strong>Stunden:</strong> Wie viele Stunden waren kalkuliert, wie viele wurden gebraucht? Zwei, drei abgeschlossene Aufträge reichen.',
+      '<strong>Offene Rechnungen:</strong> Welcher Betrag ist mehr als 30 Tage überfällig?']) +
+  p('Alle drei Zahlen hast du schon: in der Offertliste, in den Rapporten und in der Buchhaltung. Es geht nur darum, sie regelmässig anzuschauen.') +
+  vorlage('Monatsblatt', [
+      f'<strong>Monat:</strong> {LUECKE}',
+      f'<strong>Offene Offerten:</strong> {LUECKE}, davon älter als zwei Wochen: {LUECKE}',
+      f'<strong>Stunden kalkuliert / gebraucht:</strong> {LUECKE} / {LUECKE} (Auftrag: {LUECKE})',
+      f'<strong>Überfällige Rechnungen:</strong> CHF {LUECKE}',
+      f'<strong>Was mache ich deshalb diesen Monat anders?</strong> {LUECKE}'],
+      'Die letzte Zeile ist die wichtigste. Eine Zahl, aus der nichts folgt, ist nur Statistik.') +
+  p('Welche Zahl schaust du dir heute schon an? Antworte mir.', mb=24))
+
+bb[6] = brief_nr(6, 'Zeit für einen zweiten Blick', 'Fünf Minuten Büro-Check, und der Vergleich mit dem letzten Mal.',
+  p('Du bekommst den Büro-Brief jetzt seit einigen Monaten. Zeit für einen Blick zurück: Was hat sich bei euch verändert, und was ist liegen geblieben?') +
+  kicker('Tipp') + h2('Mach den Büro-Check noch einmal') +
+  p('Er dauert fünf Minuten. Wenn du das Ergebnis mit «Im Verlauf speichern» sicherst, zeigt dir die Seite «Verlauf» den Vergleich mit dem letzten Mal. Das klappt auf dem gleichen Gerät im gleichen Browser, denn deine Antworten bleiben bei dir und werden nicht übertragen.') +
+  btn('Büro-Check starten', SITE + '/' + BB) +
+  h2('So nutzt du das Ergebnis') +
+  ol(['<strong>Schau, was besser geworden ist,</strong> und sag es dem Team. Fortschritt, den niemand bemerkt, motiviert niemanden.',
+      '<strong>Wähl einen Bereich, der stehen geblieben ist,</strong> und nimm dir dafür genau eine Massnahme vor.',
+      '<strong>Trag den nächsten Check in den Kalender,</strong> in drei Monaten.']) +
+  box(kicker('Büro-Check 1:1') + h2('Lieber gemeinsam anschauen?') +
+      p('In einem Online-Termin von 60 Minuten gehen wir dein Ergebnis zusammen durch und schauen, wo es im Büro hakt. Danach bekommst du einen schriftlichen Plan für die nächsten drei Monate.') +
+      btn('Online-Termin wählen', 'https://cal.com/baustelle-buero/buero-check-online' + BB) +
+      p(f'Lieber bei dir im Betrieb, mit dem Team? Dann wähl einen <a href="https://cal.com/baustelle-buero/buero-check-vor-ort{BB}" style="color:{PRI};font-weight:700;">Termin vor Ort</a>. Preise und Ablauf findest du auf der <a href="{SITE}/{BB}#toolkit" style="color:{PRI};font-weight:700;">Website</a>.', size=14, color=MUTED, mb=16)) +
+  p('Was hat sich bei euch seit dem ersten Check verändert? Ich freue mich über ein paar Sätze.', mb=24))
+
+for nr, html in bb.items():
+    open(OUT + f'buero-brief-{nr}.html', 'w', encoding='utf-8').write(html)
 print('ok')

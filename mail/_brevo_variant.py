@@ -25,7 +25,10 @@ def convert(html):
     html = html.replace('<td align="center" bgcolor=', '<td data-role="cta-primary" align="center" bgcolor=')
     return html
 
-for nr in (1, 2, 3):
-    src = open(f'{OUT}toolkit-folge-{nr}.html', encoding='utf-8').read()
-    open(f'{OUT}toolkit-folge-{nr}-brevo.html', 'w', encoding='utf-8').write(convert(src))
+import glob, os
+for path in sorted(glob.glob(f'{OUT}toolkit-folge-[0-9].html') + glob.glob(f'{OUT}buero-brief-[0-9]*.html')):
+    if path.endswith('-brevo.html'):
+        continue
+    src = open(path, encoding='utf-8').read()
+    open(path.replace('.html', '-brevo.html'), 'w', encoding='utf-8').write(convert(src))
 print('ok')
