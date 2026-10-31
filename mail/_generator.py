@@ -191,9 +191,9 @@ BB_FOOTER = (f'Du erhältst diese E-Mail, weil du dich auf baustelle-buero.ch f�
 def vorlage(title, lines, note=''):
     body = '<br>'.join(lines)
     return box(kicker('Zum Abschreiben') + h2(title) + p(body) + (p(note, size=14, color=MUTED) if note else ''))
-def ps_toolkit(kaeufer, andere):
-    # Bedingung im Text: Kontakte mit Attribut TOOLKIT = "ja" sehen den ersten Satz, alle anderen den zweiten.
-    return p('{% if contact.TOOLKIT == "ja" %}' + kaeufer + '{% else %}' + andere + '{% endif %}', size=14, color=MUTED, mb=24)
+def ps_toolkit(text):
+    # Gleicher Hinweis für alle (Entscheid 31.10.2026: keine Unterscheidung nach Toolkit-Kauf).
+    return p(text, size=14, color=MUTED, mb=24)
 def brief_nr(nr, title, preheader, inner):
     return shell(title, preheader, row(kicker(f'Büro-Brief Nr. {nr}') + h1(title) + p(HALLO) + inner + sign(), pad='28px 40px 32px 40px'), BB_FOOTER)
 LUECKE = '________'
@@ -249,8 +249,7 @@ bb[3] = brief_nr(3, 'Fünf Fragen vor dem Auftragsstart', 'Damit die Baustelle w
       '<strong>5.</strong> Was wurde mündlich abgemacht und steht nicht in der Offerte?'],
       'Die fünfte Frage ist die wichtigste. Mündliche Abmachungen sorgen bei der Schlussrechnung oft für Diskussionen.') +
   p('Welche Frage fehlt bei euch? Antworte mir, ich sammle sie.', mb=16) +
-  ps_toolkit('P.S. Im Toolkit hast du dafür das Formular «Auftragsstart». Es deckt diese fünf Fragen ab und noch ein paar mehr.',
-             f'P.S. Im Toolkit «Ordnung im Betrieb» gibt es dazu drei ausfüllbare Übergabeformulare: Auftragsstart, Änderung während der Ausführung und Rückmeldung ans Büro. <a href="{SITE}/{BB}#toolkit" style="color:{PRI};font-weight:700;">Toolkit ansehen</a>'))
+  ps_toolkit(f'P.S. Im Toolkit «Ordnung im Betrieb» gibt es dazu drei ausfüllbare Übergabeformulare: Auftragsstart, Änderung während der Ausführung und Rückmeldung ans Büro. Hast du das Toolkit schon? Dann nimm das Formular «Auftragsstart», es deckt diese fünf Fragen ab. <a href="{SITE}/{BB}#toolkit" style="color:{PRI};font-weight:700;">Toolkit ansehen</a>'))
 
 bb[4] = brief_nr(4, 'Änderungen in vier Teilen', 'Wer eine Änderung annimmt, sagt es allen. Am besten so.',
   p('Der Kunde ruft im Büro an: Die Platten sollen doch grau sein, nicht beige. Das Büro sagt zu und bestellt um. Auf der Baustelle verlegt das Team am nächsten Morgen die beigen Platten, die noch auf dem Platz liegen.') +
