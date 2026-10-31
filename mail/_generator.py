@@ -141,7 +141,7 @@ def folge(nr, title, preheader, inner):
 f1 = folge(1, 'Eine Massnahme, diese Woche', 'Nicht alles auf einmal. Eine Sache, die in einer Stunde erledigt ist.',
   h1('Eine Massnahme, diese Woche') +
   p(f'{HALLO}') +
-  p('Du hast das Toolkit jetzt seit zwei Tagen. Vielleicht hast du schon reingeschaut, vielleicht liegt es noch im Download-Ordner. Beides ist normal. Damit es nicht dort bleibt, nimm dir diese Woche genau eine Sache vor:') +
+  p('Du hast das Toolkit jetzt seit einigen Tagen. Vielleicht hast du schon reingeschaut, vielleicht liegt es noch im Download-Ordner. Beides ist normal. Damit es nicht dort bleibt, nimm dir diese Woche genau eine Sache vor:') +
   ol(['<strong>Eine Massnahme wählen,</strong> die du in höchstens einer Stunde erledigen kannst. Zum Beispiel: eine Ablageregel festlegen oder bestimmen, wer Offerten verschickt.',
       '<strong>Name und Datum eintragen,</strong> im Blatt «Massnahmen» der Excel-Arbeitsmappe. Was kein Datum hat, passiert nicht.',
       '<strong>Dem Team sagen,</strong> beim Znüni oder in der nächsten Besprechung. Zwei Sätze reichen: was sich ändert und ab wann.']) +
