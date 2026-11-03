@@ -180,7 +180,9 @@ f3 = folge(3, 'Damit es nicht wieder einschläft', 'Zwei kleine Gewohnheiten und
       btn('Online-Termin wählen', CAL_ON) +
       p(f'Lieber bei dir im Betrieb, mit dem Team? Dann wähl einen <a href="{CAL_VO}" style="color:{PRI};font-weight:700;">Termin vor Ort</a>.', size=14, color=MUTED, mb=16)) +
   p('Und eine Bitte: Was hat dir am Toolkit geholfen, was fehlt? Antworte mit zwei, drei Sätzen auf diese Mail. Ich lese jede Antwort.') +
-  p(f'Das war die letzte Mail dieser Reihe. Wenn du weiterhin Tipps möchtest: Einmal im Monat erscheint der <a href="{SITE}/{UTM}#nl" style="color:{PRI};font-weight:700;">Büro-Brief</a>.', mb=24))
+  box(kicker('Büro-Brief') + h2('Dranbleiben, einmal im Monat') +
+      p('Das war die letzte Mail dieser Reihe. Wenn du weiter dranbleiben willst: Der Büro-Brief bringt dir einmal im Monat einen Tipp für den Alltag im Büro und erinnert dich, wenn es Zeit für den nächsten Büro-Check ist. Kostenlos und jederzeit abbestellbar.') +
+      btn('Zum Büro-Brief anmelden', f'{SITE}/{UTM}#newsletter')))
 open(OUT + 'toolkit-folge-3.html', 'w', encoding='utf-8').write(f3)
 
 # 5) Büro-Brief als Reihe nach der Anmeldung (Brevo-Automation, monatlich, ohne Datumsbezug)
