@@ -913,7 +913,18 @@ function go(v, mode){
     else if(mode === 'push') history.pushState(st,'','#'+v);
   }catch(e){}
   const nlTarget = toNl && document.querySelector('#main #nl');
-  if(nlTarget) nlTarget.scrollIntoView(); else window.scrollTo(0,0);
+  if(nlTarget){
+    nlTarget.scrollIntoView();
+    // In-App-Browser (Instagram, Facebook, LinkedIn) und das nachgeladene Brevo-Formular verschieben das Layout.
+    // Deshalb nach dem Laden nochmals zum Formular springen, solange die Person nicht selbst scrollt.
+    if(mode === 'replace'){
+      let stop = false; const halt = () => { stop = true; };
+      ['touchstart','wheel','keydown'].forEach(ev => window.addEventListener(ev, halt, {once:true, passive:true}));
+      const again = () => { const t = document.querySelector('#main #nl'); if(!stop && view === 'start' && t) t.scrollIntoView(); };
+      window.addEventListener('load', again, {once:true});
+      [400, 1200, 2500].forEach(ms => setTimeout(again, ms));
+    }
+  } else window.scrollTo(0,0);
 }
 window.addEventListener('popstate', e => {
   clearTimeout(advanceT);
@@ -1017,7 +1028,9 @@ function copyName(){
   try{ navigator.clipboard.writeText(fileName()).then(() => done('Kopiert.'), fail); }catch(e){ fail(); }
 }
 
-go((location.hash||'').slice(1) || 'start', 'replace');
+// ?ziel=newsletter als Alternative zu #newsletter, falls ein In-App-Browser den Teil nach # verliert
+const START_VIEW = (() => { try{ if(new URLSearchParams(location.search).get('ziel') === 'newsletter') return 'newsletter'; }catch(e){} return ''; })();
+go(START_VIEW || (location.hash||'').slice(1) || 'start', 'replace');
 </script>
 
 <script>
