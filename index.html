@@ -499,8 +499,9 @@ const about = () => `<section class="card about" aria-labelledby="about-h">
     <div class="about-txt">
       <span class="kicker">Wer steckt dahinter?</span>
       <h2 id="about-h">Florian Buchs, Zweisimmen</h2>
-      <p>Gelernter Koch, Landschaftsgärtner und Gartenbautechniker HF – und schon als Kind am Computer. Der Büro-Check basiert auf meiner Diplomarbeit über Datenmanagement in Handwerksbetrieben.</p>
-      <p>Meine wichtigste Erkenntnis: Ordnung im Büro ist selten ein technisches Problem, sondern ein menschliches.</p>
+      <p>Gelernter Koch, Landschaftsgärtner und Gartenbautechniker HF. In der Küche heisst es <i>Mise en place</i>: Alles ist vorbereitet, bevor der erste Gast kommt, damit man reagieren kann, wenn es anders läuft als geplant.</p>
+      <p>Im Büro war es oft umgekehrt: Vor jeder Abrechnung habe ich zuerst stundenlang Unterlagen zusammengesucht und sortiert. Daraus entstand meine Diplomarbeit über Datenmanagement in Handwerksbetrieben – und dieser Büro-Check.</p>
+      <p>Meine wichtigste Erkenntnis: Entscheidend ist nicht die Software, sondern das Mindset und das Wollen. Ordnung im Büro ist selten ein technisches Problem, sondern ein menschliches.</p>
       <p class="muted">Fragen oder Feedback? Schreib mir direkt.</p>
       ${aboutLinks()}
     </div>
@@ -547,7 +548,7 @@ V.start = () => {
   const r = score(), started = r.answered > 0 && !state.example;
   const intro = `<span class="kicker">Gratis Büro-Check für Handwerksbetriebe</span>
     <h1>Wie aufgeräumt ist dein Baustellenbüro?</h1>
-    <p class="lead">Lieferscheine suchen, Rapporte nachtragen, Wissen nur im Kopf vom Chef? 7 kurze Fragen zeigen dir in 5 Minuten, wo dein Betrieb steht und wo du anfangen solltest.</p>`;
+    <p class="lead">Lieferscheine suchen, Rapporte nachtragen, und Ende Monat sind die Rechnungen noch nicht draussen? Meist fehlt keine Software, sondern ein System. 7 kurze Fragen zeigen dir in 5 Minuten, wo dein Betrieb steht und wo du anfangen solltest.</p>`;
   // Wiederkehrende Besucher: kein Verkaufstext und keine doppelte Vorstellung, sondern direkt zurück zum eigenen Stand.
   if(started && r.complete) return `<section class="hero">
     <span class="kicker">Willkommen zurück</span>
