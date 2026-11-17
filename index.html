@@ -315,6 +315,15 @@ details.more > summary{cursor:pointer;font-weight:700;padding:6px 0}
 .way p{color:var(--muted)}
 .way .pill{font-size:12.5px;padding:3px 9px}
 .way .pill{white-space:normal}
+.way li.open::before{background:var(--surface);color:var(--muted);box-shadow:inset 0 0 0 2px var(--line)}
+.way li.done::before{content:'✓';background:var(--ok);color:#fff}
+.way li.done h3{color:var(--muted)}
+.way li.cur h3{color:var(--primary)}
+.way .mini{display:block;width:100%;max-width:260px;height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin:4px 0}
+.way .mini i{display:block;height:100%;background:var(--primary);border-radius:4px}
+.way .tick{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted);cursor:pointer;margin-top:4px}
+.way .tick input{accent-color:var(--ok);width:17px;height:17px;margin:0}
+.jr-sum{font-size:14.5px;color:var(--muted);margin-top:-6px}
 .block .btn.link{text-align:left}
 .faq details{border-bottom:1px solid var(--line);padding:12px 0}
 .faq details:last-child{border-bottom:0}
@@ -512,7 +521,7 @@ const PLAN = {
 
 /* ---------- Zustand ---------- */
 const KEY = 'daten-check-handwerk-v4';
-const defaults = () => ({betrieb:'', values:{}, example:false, checks:{}, tool:'fname', history:[], nl:false});
+const defaults = () => ({betrieb:'', values:{}, example:false, checks:{}, way:{}, tool:'fname', history:[], nl:false});
 let state = defaults();
 try{ const raw = localStorage.getItem(KEY); if(raw) state = Object.assign(defaults(), JSON.parse(raw)); }catch(e){}
 const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} };
@@ -603,6 +612,26 @@ const way = () => `<section class="card block" aria-labelledby="way-h">
       <li><h3>Büro-Check 1:1</h3><p>Wir schauen gemeinsam, wo es hakt. Danach hast du einen schriftlichen Plan für die nächsten drei Monate.</p><span class="pill free">online CHF&nbsp;330 · vor Ort ab CHF&nbsp;560</span><span class="pill pro">Die ersten fünf Betriebe zahlen den halben Preis</span>${calLink('online','Termin buchen','btn link')}</li>
     </ol>
   </section>`;
+// Wiederkehrende Besucher: die vier Schritte als Fortschritt. Schritt 1 und 2 erkennt die App selbst, 3 und 4 hakt die Person ab.
+const journey = () => {
+  const r = score();
+  const ids = focusInds().flatMap(ind => PLAN[ind.id].free.map((t,i) => `${ind.id}-${i}`));
+  const m = ids.filter(id => state.checks[id]).length, mt = ids.length;
+  const done = [true, m === mt, !!state.way.toolkit, !!state.way.beratung];
+  const cur = done.indexOf(false), n = done.filter(Boolean).length;
+  const cls = i => done[i] ? 'done' : i === cur ? 'cur' : 'open';
+  const tick = (k, label) => `<label class="tick"><input type="checkbox" data-way="${k}" ${state.way[k]?'checked':''}>${label}</label>`;
+  return `<section class="card block" id="journey" aria-labelledby="jr-h">
+    <h2 id="jr-h">Dein Weg zu einem Büro, das läuft</h2>
+    <p class="jr-sum">${n} von 4 Schritten erledigt</p>
+    <ol class="way">
+      <li class="${cls(0)}"><h3>Gratis Büro-Check</h3><p>Reifegrad ${r.stage} von 5. Mach den Check in drei Monaten nochmals.</p></li>
+      <li class="${cls(1)}"><h3>Erste Massnahmen umsetzen</h3><p>${m} von ${mt} erledigt</p><span class="mini" aria-hidden="true"><i style="width:${mt ? Math.round(m/mt*100) : 100}%"></i></span><button class="btn link" data-view="massnahmen">${m === mt ? 'Massnahmen ansehen' : 'Zu den Massnahmen'}</button></li>
+      <li class="${cls(2)}"><h3>Toolkit</h3><p>Alle Massnahmen, Vorlagen und die Excel-Arbeitsmappe, um mit dem Team weiterzumachen.</p>${state.way.toolkit ? '' : `<div class="actions">${buyBtn()}<button class="btn link" data-view="toolkit">Inhalt ansehen</button></div>`}${tick('toolkit','Habe ich schon')}</li>
+      <li class="${cls(3)}"><h3>Büro-Check 1:1</h3><p>Wir schauen gemeinsam, wo es hakt. Danach hast du einen schriftlichen Plan für die nächsten drei Monate.</p>${state.way.beratung ? '' : `<span class="pill free">online CHF&nbsp;330 · vor Ort ab CHF&nbsp;560</span><span class="pill pro">Die ersten fünf Betriebe zahlen den halben Preis</span><div class="actions">${calLink('online','Online-Termin','btn small')}${calLink('vorort','Termin vor Ort','btn small')}</div>`}${tick('beratung','Termin gebucht')}</li>
+    </ol>
+  </section>`;
+};
 const FAQ = [
   ['Für wen ist baustelle-büro gedacht?', 'Für Chefinnen und Chefs von Handwerks- und Gartenbaubetrieben, die merken, dass das Büro nicht mehr mitkommt, aber nicht wissen, wo anfangen.'],
   ['Muss ich eine neue Software kaufen?', 'Nein. Meistens reicht, was du schon hast. Zuerst geht es um Regeln, Zuständigkeiten und Gewohnheiten, erst dann um Werkzeuge.'],
@@ -636,7 +665,7 @@ V.start = () => {
       <button class="btn link" id="go-new">Neu beginnen</button>
     </div>
   </section>
-  ${consult()}
+  ${journey()}
   ${about()}`;
   if(started) return `<section class="hero">
     <span class="kicker">Gratis Büro-Check für Handwerksbetriebe</span>
@@ -858,9 +887,11 @@ function card(ind, n){
     ${p.tool ? `<div class="mfoot"><button class="btn small" data-view="werkzeuge" data-tool="${p.tool}">Dateinamen-Werkzeug öffnen</button></div>` : ''}
   </article>`;
 }
+const sortedInds = () => INDICATORS.slice().sort((a,b) => state.values[a.id]-state.values[b.id] || INDICATORS.indexOf(a)-INDICATORS.indexOf(b));
+const focusInds = () => sortedInds().filter(i => state.values[i.id] < 5).slice(0,3);
 V.massnahmen = () => {
-  const sorted = INDICATORS.slice().sort((a,b) => state.values[a.id]-state.values[b.id] || INDICATORS.indexOf(a)-INDICATORS.indexOf(b));
-  const focus = sorted.filter(i => state.values[i.id] < 5).slice(0,3);
+  const sorted = sortedInds();
+  const focus = focusInds();
   const rest = sorted.filter(i => !focus.includes(i));
   return `<div class="head"><span class="kicker">Nächste Schritte</span><h1>Drei Baustellen für die nächsten drei Monate</h1>
       <p class="muted">Die drei Indikatoren mit der tiefsten Stufe, je mit zwei ersten Schritten. Mach die Einschätzung nach drei Monaten erneut.</p></div>
@@ -1094,6 +1125,8 @@ document.addEventListener('input', e => {
   if(t.id && t.id.startsWith('sz-')) renderZeit();
 });
 document.addEventListener('change', e => {
+  const w = e.target.dataset && e.target.dataset.way;
+  if(w){ state.way[w] = e.target.checked; save(); const j = $('#journey'); if(j) j.outerHTML = journey(); return; }
   if(e.target.id === 'share-name') return updateShare();
   const id = e.target.dataset && e.target.dataset.check; if(!id) return;
   state.checks[id] = e.target.checked; save();
