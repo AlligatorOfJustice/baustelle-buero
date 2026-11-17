@@ -318,6 +318,7 @@ details.more > summary{cursor:pointer;font-weight:700;padding:6px 0}
 .way li.open::before{background:var(--surface);color:var(--muted);box-shadow:inset 0 0 0 2px var(--line)}
 .way li.done::before{content:'✓';background:var(--ok);color:#fff}
 .way li.done h3{color:var(--muted)}
+.way li .actions{margin-top:4px}
 .way li.cur h3{color:var(--primary)}
 .way .mini{display:block;width:100%;max-width:260px;height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin:4px 0}
 .way .mini i{display:block;height:100%;background:var(--primary);border-radius:4px}
@@ -612,6 +613,38 @@ const way = () => `<section class="card block" aria-labelledby="way-h">
       <li><h3>Büro-Check 1:1</h3><p>Wir schauen gemeinsam, wo es hakt. Danach hast du einen schriftlichen Plan für die nächsten drei Monate.</p><span class="pill free">online CHF&nbsp;330 · vor Ort ab CHF&nbsp;560</span><span class="pill pro">Die ersten fünf Betriebe zahlen den halben Preis</span>${calLink('online','Termin buchen','btn link')}</li>
     </ol>
   </section>`;
+// Erinnerung an den nächsten Check: drei Monate nach dem letzten abgeschlossenen Check.
+const checkDates = () => {
+  if(!state.doneAt){ const h = state.history[state.history.length-1]; state.doneAt = h ? h.date : new Date().toISOString(); save(); }
+  const last = new Date(state.doneAt), next = new Date(last); next.setMonth(next.getMonth() + 3);
+  return {last, next, due: Date.now() >= next.getTime()};
+};
+const fmtDate = d => d.toLocaleDateString('de-CH', {day:'numeric', month:'long', year:'numeric'});
+const ymd = d => `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+const REM = {title:'Büro-Check wiederholen', url:'https://www.baustelle-buero.ch/'};
+const remText = () => `Mach den Büro-Check nochmals und vergleiche mit deinem letzten Ergebnis (Reifegrad ${score().stage} von 5). Dauert 5 Minuten: ${REM.url}`;
+function downloadIcs(){
+  const {next} = checkDates(), end = new Date(next); end.setDate(end.getDate() + 1);
+  const now = new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+  const esc2 = t => t.replace(/[\\;,]/g, m => '\\' + m);
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//baustelle-buero//Buero-Check//DE','CALSCALE:GREGORIAN','BEGIN:VEVENT',
+    `UID:buero-check-${ymd(next)}@baustelle-buero.ch`,`DTSTAMP:${now}`,`DTSTART;VALUE=DATE:${ymd(next)}`,`DTEND;VALUE=DATE:${ymd(end)}`,
+    `SUMMARY:${esc2(REM.title)}`,`DESCRIPTION:${esc2(remText())}`,`URL:${REM.url}`,
+    'BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${esc2(REM.title)}`,'TRIGGER:PT9H','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  track('erinnerung-kalender');
+  if(/iPhone|iPad|iPod/.test(navigator.userAgent)){ location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); return; }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([ics], {type:'text/calendar;charset=utf-8'}));
+  a.download = 'buero-check-erinnerung.ics'; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+const gcalLink = () => { const {next} = checkDates(), end = new Date(next); end.setDate(end.getDate() + 1);
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(REM.title) + '&dates=' + ymd(next) + '/' + ymd(end) + '&details=' + encodeURIComponent(remText()); };
+const reminder = () => { const {last, next, due} = checkDates();
+  return due
+    ? `<p><b>Zeit für den nächsten Check.</b> Dein letzter war am ${fmtDate(last)}.</p><div class="actions"><button class="btn small primary" id="go-new">Check wiederholen</button></div>`
+    : `<p>Reifegrad ${score().stage} von 5, gemacht am ${fmtDate(last)}. Nächster Check ab <b>${fmtDate(next)}</b>.</p>
+      <div class="actions"><button class="btn small" id="ics">Erinnerung in den Kalender</button><a class="btn link" href="${gcalLink()}" target="_blank" rel="noopener" data-gcal>Google Kalender</a></div>`; };
 // Wiederkehrende Besucher: die vier Schritte als Fortschritt. Schritt 1 und 2 erkennt die App selbst, 3 und 4 hakt die Person ab.
 const journey = () => {
   const r = score();
@@ -625,7 +658,7 @@ const journey = () => {
     <h2 id="jr-h">Dein Weg zu einem Büro, das läuft</h2>
     <p class="jr-sum">${n} von 4 Schritten erledigt</p>
     <ol class="way">
-      <li class="${cls(0)}"><h3>Gratis Büro-Check</h3><p>Reifegrad ${r.stage} von 5. Mach den Check in drei Monaten nochmals.</p></li>
+      <li class="${cls(0)}"><h3>Gratis Büro-Check</h3>${reminder()}</li>
       <li class="${cls(1)}"><h3>Erste Massnahmen umsetzen</h3><p>${m} von ${mt} erledigt</p><span class="mini" aria-hidden="true"><i style="width:${mt ? Math.round(m/mt*100) : 100}%"></i></span><button class="btn link" data-view="massnahmen">${m === mt ? 'Massnahmen ansehen' : 'Zu den Massnahmen'}</button></li>
       <li class="${cls(2)}"><h3>Toolkit</h3><p>Alle Massnahmen, Vorlagen und die Excel-Arbeitsmappe, um mit dem Team weiterzumachen.</p>${state.way.toolkit ? '' : `<div class="actions">${buyBtn()}<button class="btn link" data-view="toolkit">Inhalt ansehen</button></div>`}${tick('toolkit','Habe ich schon')}</li>
       <li class="${cls(3)}"><h3>Büro-Check 1:1</h3><p>Wir schauen gemeinsam, wo es hakt. Danach hast du einen schriftlichen Plan für die nächsten drei Monate.</p>${state.way.beratung ? '' : `<span class="pill free">online CHF&nbsp;330 · vor Ort ab CHF&nbsp;560</span><span class="pill pro">Die ersten fünf Betriebe zahlen den halben Preis</span><div class="actions">${calLink('online','Online-Termin','btn small')}${calLink('vorort','Termin vor Ort','btn small')}</div>`}${tick('beratung','Termin gebucht')}</li>
@@ -1014,7 +1047,7 @@ function go(v, mode){
   let toNl = false;
   if(v==='newsletter'){ v = 'start'; toNl = true; }
   if(!VIEWS.includes(v)) v = 'start';
-  if(v==='ergebnis' && view==='fragen' && !state.example) track('check-abgeschlossen');
+  if(v==='ergebnis' && view==='fragen' && !state.example){ track('check-abgeschlossen'); state.doneAt = new Date().toISOString(); save(); }
   view = v;
   $('#wrap').classList.toggle('wide', v==='werkzeuge');
   const nlEl = document.getElementById('nl'); if(nlEl) document.getElementById('nl-park').appendChild(nlEl); // vor dem Neuzeichnen in Sicherheit bringen
@@ -1105,6 +1138,8 @@ document.addEventListener('click', e => {
   if(pt){ state.tool = pt.dataset.pickTool; save();
     document.querySelectorAll('[data-pick-tool]').forEach(b => b.setAttribute('aria-pressed', b===pt));
     $('#tool-panel').innerHTML = TOOL_HTML[state.tool](); if(state.tool==='fname') initFname(); if(state.tool==='zeit') renderZeit(); return; }
+  if(t.closest('#ics')) return downloadIcs();
+  if(t.closest('[data-gcal]')) track('erinnerung-google');
   if(t.closest('#fn-copy')) copyName();
   if(t.closest('#share-go')){ track('teilen-nativ'); return shareNative(); }
   if(t.closest('#share-wa')) track('teilen-whatsapp');
