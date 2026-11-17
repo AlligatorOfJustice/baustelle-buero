@@ -632,7 +632,6 @@ function downloadIcs(){
     `SUMMARY:${esc2(REM.title)}`,`DESCRIPTION:${esc2(remText())}`,`URL:${REM.url}`,
     'BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${esc2(REM.title)}`,'TRIGGER:PT9H','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
   track('erinnerung-kalender');
-  if(/iPhone|iPad|iPod/.test(navigator.userAgent)){ location.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); return; }
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([ics], {type:'text/calendar;charset=utf-8'}));
   a.download = 'buero-check-erinnerung.ics'; document.body.appendChild(a); a.click();
@@ -644,7 +643,8 @@ const reminder = () => { const {last, next, due} = checkDates();
   return due
     ? `<p><b>Zeit für den nächsten Check.</b> Dein letzter war am ${fmtDate(last)}.</p><div class="actions"><button class="btn small primary" id="go-new">Check wiederholen</button></div>`
     : `<p>Reifegrad ${score().stage} von 5, gemacht am ${fmtDate(last)}. Nächster Check ab <b>${fmtDate(next)}</b>.</p>
-      <div class="actions"><button class="btn small" id="ics">Erinnerung in den Kalender</button><a class="btn link" href="${gcalLink()}" target="_blank" rel="noopener" data-gcal>Google Kalender</a></div>`; };
+      <div class="actions"><button class="btn small" id="ics">Erinnerung in den Kalender</button><a class="btn link" href="${gcalLink()}" target="_blank" rel="noopener" data-gcal>Google Kalender</a></div>${inApp() ? '<p class="legend">Im Instagram-, Facebook- oder LinkedIn-Browser klappt der Kalendereintrag oft nicht. Öffne die Seite dafür in Safari oder Chrome.</p>' : ''}`; };
+const inApp = () => /Instagram|FBAN|FBAV|LinkedInApp/i.test(navigator.userAgent);
 // Wiederkehrende Besucher: die vier Schritte als Fortschritt. Schritt 1 und 2 erkennt die App selbst, 3 und 4 hakt die Person ab.
 const journey = () => {
   const r = score();
