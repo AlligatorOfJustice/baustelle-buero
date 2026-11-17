@@ -150,8 +150,8 @@ main{display:flex;flex-direction:column;gap:24px}
 .first h2{font-size:clamp(21px,3.6vw,26px);font-weight:800;letter-spacing:-.01em}
 .first .qmeta b{white-space:nowrap}
 .first .opt{font-size:15.5px;padding:11px 14px}
-.trust{display:flex;gap:12px;align-items:center;font-size:14.5px;color:var(--muted)}
-.trust img{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 0 0 1.5px var(--line)}
+.trust{display:flex;gap:10px;align-items:center;font-size:13.5px;line-height:1.4;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
+.trust img{width:34px;height:34px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 0 0 1.5px var(--line)}
 .trust b{color:var(--ink)}
 .preview{width:100%;text-align:left;cursor:pointer;padding:20px;display:flex;flex-direction:column;gap:12px;font:inherit;color:inherit}
 .preview:hover{border-color:var(--primary)}
@@ -299,8 +299,47 @@ details.more > summary{cursor:pointer;font-weight:700;padding:6px 0}
 .compare.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 .compare .card .actions{margin-top:auto}
 
+
+/* Startseite: Abschnitte unter dem Check */
+.block{padding:22px;display:flex;flex-direction:column;gap:14px}
+.block > h2{font-size:clamp(22px,3.8vw,28px);font-weight:800;letter-spacing:-.01em}
+.pain{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.pain li{background:var(--bg);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:10px 14px;font-size:15.5px}
+.punch{font-family:var(--f-head);font-weight:700;font-size:18.5px;line-height:1.35;color:var(--primary)}
+.way{list-style:none;margin:0;padding:0;counter-reset:w}
+.way li{position:relative;padding:0 0 20px 54px;display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.way li::before{counter-increment:w;content:counter(w);position:absolute;left:0;top:0;width:38px;height:38px;border-radius:50%;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;font:800 17px var(--f-head)}
+.way li:not(:last-child)::after{content:'';position:absolute;left:18px;top:42px;bottom:2px;width:2px;background:var(--line)}
+.way li:last-child{padding-bottom:0}
+.way h3{font-size:18px;font-weight:800}
+.way p{color:var(--muted)}
+.way .pill{font-size:12.5px;padding:3px 9px}
+.way .pill{white-space:normal}
+.block .btn.link{text-align:left}
+.faq details{border-bottom:1px solid var(--line);padding:12px 0}
+.faq details:last-child{border-bottom:0}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;font-weight:700}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';color:var(--primary);font-size:22px;line-height:1;font-weight:700}
+.faq details[open] summary::after{content:'–'}
+.faq details p{margin-top:8px;color:var(--muted);max-width:62ch}
+.closer{padding:26px 22px;display:flex;flex-direction:column;gap:12px;align-items:flex-start;background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.closer h2{font-size:clamp(22px,3.8vw,28px);font-weight:800}
+.closer p{opacity:.9}
+.closer .btn.light{background:var(--surface);border-color:var(--surface);color:var(--primary)}
+.closer .btn.link{color:var(--on-primary)}
+/* Suchzeit-Rechner */
+.sz{display:flex;flex-direction:column;gap:14px}
+.sz label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700}
+.sz .row{display:flex;align-items:center;gap:12px}
+.sz input[type=range]{flex:1;min-width:0;accent-color:var(--primary)}
+.sz output{min-width:70px;text-align:right;font-family:var(--f-head);font-weight:800;font-size:17px;font-variant-numeric:tabular-nums}
+.sz-res{background:var(--primary);color:var(--on-primary);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:2px}
+.sz-res b{font-family:var(--f-head);font-weight:800;font-size:36px;line-height:1.1;font-variant-numeric:tabular-nums}
+.sz-res small{opacity:.85;font-size:13.5px}
+
 /* Werkzeuge */
-.picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.picker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .pick{display:flex;flex-direction:column;gap:4px;text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:14px 16px;cursor:pointer;min-width:0}
 .pick:hover{border-color:var(--primary)}
 .pick[aria-pressed="true"]{border-color:var(--primary);background:var(--primary-soft)}
@@ -366,7 +405,7 @@ details.more > summary{cursor:pointer;font-weight:700;padding:6px 0}
 
 footer{border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px}
 
-@media (max-width:860px){ .picker,.compare.three{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:860px){ .compare.three{grid-template-columns:minmax(0,1fr)} .picker{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:600px){
   .form,.fakeform,.compare{grid-template-columns:1fr}
   .logo em{display:none}
@@ -529,8 +568,8 @@ function score(v = state.values){
 /* ---------- Ansichten ---------- */
 const V = {};
 
-// Startseite: Frage 1 steht direkt im Hero (ein Tipp und man ist drin), darunter Vertrauen und eine Ergebnis-Vorschau.
-const trust = () => `<div class="trust"><img src="img/florian.jpg" width="44" height="44" alt=""><p>Entwickelt von <b>Florian Buchs</b> aus Zweisimmen, auf Basis seiner Diplomarbeit HF. Ohne Anmeldung, deine Antworten bleiben in deinem Browser.</p></div>`;
+// Startseite: Frage 1 steht direkt im Hero (ein Tipp und man ist drin), darunter Problem, Ablauf, Über mich, FAQ und Schlussaufruf.
+const trust = () => `<div class="trust"><img src="img/florian.jpg" width="34" height="34" alt=""><p>Von <b>Florian Buchs</b>, Zweisimmen, auf Basis seiner Diplomarbeit HF. Ohne Anmeldung, deine Antworten bleiben in deinem Browser.</p></div>`;
 const preview = () => {
   const r = score(EXAMPLE_VALUES), fks = Object.keys(FIELDS);
   const minSt = Math.min(...fks.map(k => r.fields[k].stage));
@@ -544,11 +583,48 @@ const preview = () => {
     <span class="btn link">Ganzes Beispiel mit Massnahmen ansehen</span>
   </button>`;
 };
+const pain = () => `<section class="card block" aria-labelledby="pain-h">
+    <h2 id="pain-h">Sieht dein Alltag auch so aus?</h2>
+    <ul class="pain">
+      <li>Der Lieferschein vom Dienstag taucht am Freitag in der Jackentasche wieder auf.</li>
+      <li>Vor jeder Abrechnung suchst du zuerst eine Stunde lang Unterlagen zusammen.</li>
+      <li>Nur du weisst, wo was liegt. Bist du krank, steht das Büro still.</li>
+      <li>Das Team fragt dreimal dasselbe, weil die Info irgendwo im WhatsApp-Chat liegt.</li>
+    </ul>
+    <p class="punch">Wenn du bei zwei Punkten genickt hast: Es liegt nicht an dir. Es fehlt ein System, das dein Team auch wirklich nutzt.</p>
+    <button class="btn link" data-view="werkzeuge" data-tool="zeit">Was kostet dich das Suchen im Jahr? Zum Suchzeit-Rechner</button>
+  </section>`;
+const way = () => `<section class="card block" aria-labelledby="way-h">
+    <h2 id="way-h">So kommst du zu einem Büro, das läuft</h2>
+    <ol class="way">
+      <li><h3>Gratis Büro-Check</h3><p>7 Fragen, 5 Minuten. Du siehst, wo dein Betrieb steht.</p></li>
+      <li><h3>Ergebnis und erste Massnahmen</h3><p>Dein Reifegrad und deine drei wichtigsten Baustellen, je mit zwei ersten Schritten. Gratis.</p><button class="btn link" id="go-example">Beispielergebnis ansehen</button></li>
+      <li><h3>Toolkit</h3><p>Merkblätter, Vorlagen und Excel-Arbeitsmappe, um alle Massnahmen mit dem Team umzusetzen.</p><span class="pill pro">${esc(SHOP.price)}</span><button class="btn link" data-view="toolkit">Inhalt ansehen</button></li>
+      <li><h3>Büro-Check 1:1</h3><p>Wir schauen gemeinsam, wo es hakt. Danach hast du einen schriftlichen Plan für die nächsten drei Monate.</p><span class="pill free">online CHF&nbsp;330 · vor Ort ab CHF&nbsp;560</span><span class="pill pro">Die ersten fünf Betriebe zahlen den halben Preis</span>${calLink('online','Termin buchen','btn link')}</li>
+    </ol>
+  </section>`;
+const FAQ = [
+  ['Für wen ist baustelle-büro gedacht?', 'Für Chefinnen und Chefs von Handwerks- und Gartenbaubetrieben, die merken, dass das Büro nicht mehr mitkommt, aber nicht wissen, wo anfangen.'],
+  ['Muss ich eine neue Software kaufen?', 'Nein. Meistens reicht, was du schon hast. Zuerst geht es um Regeln, Zuständigkeiten und Gewohnheiten, erst dann um Werkzeuge.'],
+  ['Was kostet es?', 'Der Büro-Check ist gratis. Das Toolkit kostet CHF 29. Der Büro-Check 1:1 kostet online CHF 330 und vor Ort ab CHF 560. Wer das Toolkit schon gekauft hat, bekommt es an die Beratung angerechnet (nicht beim Einführungsangebot).'],
+  ['Wie viel Zeit muss ich investieren?', 'Der Check dauert 5 Minuten. Die Massnahmen sind so gewählt, dass du sie neben dem Tagesgeschäft umsetzen kannst, eine nach der anderen.'],
+  ['Was passiert mit meinen Antworten?', 'Sie bleiben in deinem Browser. Es braucht keine Anmeldung, und es werden keine Antworten an mich übertragen.'],
+  ['Wann sind Termine möglich?', 'Online am Mittwoch- und Donnerstagabend, vor Ort am Samstag. Freie Termine siehst du direkt bei der Buchung.']
+];
+const faq = () => `<section class="card block faq" aria-labelledby="faq-h">
+    <h2 id="faq-h">Häufige Fragen</h2>
+    <div>${FAQ.map(([q,a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join('')}</div>
+  </section>`;
+const closer = () => `<section class="card closer">
+    <h2>Fünf Minuten für mehr Ordnung im Büro</h2>
+    <p>Finde heraus, wo dein Betrieb steht und welcher Schritt am meisten bringt.</p>
+    <div class="actions"><button class="btn light" id="go-start">Gratis Büro-Check starten</button>${calLink('online','Lieber gleich reden?','btn link')}</div>
+  </section>`;
 V.start = () => {
   const r = score(), started = r.answered > 0 && !state.example;
   const intro = `<span class="kicker">Gratis Büro-Check für Handwerksbetriebe</span>
-    <h1>Wie aufgeräumt ist dein Baustellenbüro?</h1>
-    <p class="lead">Lieferscheine suchen, Rapporte nachtragen, und Ende Monat sind die Rechnungen noch nicht draussen? Meist fehlt keine Software, sondern ein System. 7 kurze Fragen zeigen dir in 5 Minuten, wo dein Betrieb steht und wo du anfangen solltest.</p>`;
+    <h1>Dein Büro braucht keine neue Software.</h1>
+    <p class="lead">Sondern ein System, das dein Team auch einhält. Lieferscheine suchen, Rapporte nachtragen, Rechnungen zu spät verschicken: Das löst kein Programm. 7 kurze Fragen zeigen dir in 5 Minuten, wo du anfangen solltest.</p>`;
   // Wiederkehrende Besucher: kein Verkaufstext und keine doppelte Vorstellung, sondern direkt zurück zum eigenen Stand.
   if(started && r.complete) return `<section class="hero">
     <span class="kicker">Willkommen zurück</span>
@@ -580,11 +656,14 @@ V.start = () => {
       <h2 id="first-h">Wie sind Pläne, Offerten, Rapporte und Fotos bei euch abgelegt?</h2>
       <p class="muted">Tipp auf die Beschreibung, die am ehesten zutrifft. Danach geht es direkt weiter.</p>
       <div class="opts">${opts}</div>
+      ${trust()}
     </div>
-    ${trust()}
   </section>
-  ${preview()}
-  ${about()}`;
+  ${pain()}
+  ${way()}
+  ${about()}
+  ${faq()}
+  ${closer()}`;
 };
 
 V.fragen = () => {
@@ -794,11 +873,12 @@ V.massnahmen = () => {
 
 const TOOLS = [
   {id:'fname', name:'Dateinamen', sub:'Ablageregel', desc:'Einheitliche Namen für jede Datei.', free:true},
+  {id:'zeit', name:'Suchzeit', sub:'Rechner', desc:'Was kostet dich das Suchen im Jahr?', free:true},
   {id:'raci', name:'Zuständigkeiten', sub:'RACI-Matrix', desc:'Wer ist wofür verantwortlich?'},
   {id:'handover', name:'Übergabe-Check', sub:'Büro ↔ Baustelle', desc:'Vollständige Übergaben ohne Informationsverlust.'}
 ];
 V.werkzeuge = () => `<div class="head"><span class="kicker">Werkzeuge</span><h1>Praktische Hilfen für den Alltag</h1>
-    <p class="muted">Der Dateinamen-Generator ist kostenlos. Die RACI-Matrix und der Übergabe-Check sind Teil des Toolkits.</p></div>
+    <p class="muted">Der Dateinamen-Generator und der Suchzeit-Rechner sind kostenlos. Die RACI-Matrix und der Übergabe-Check sind Teil des Toolkits.</p></div>
   <div class="picker" role="group" aria-label="Werkzeug wählen">${TOOLS.map(t => `<button class="pick" data-pick-tool="${t.id}" aria-pressed="${state.tool===t.id}"><span class="row"><small>${t.sub}</small><span class="pill ${t.free?'free':'pro'}">${t.free?'Gratis':'Toolkit'}</span></span><b>${t.name}</b><span class="d">${t.desc}</span></button>`).join('')}</div>
   <section class="card tool" id="tool-panel">${TOOL_HTML[state.tool]()}</section>`;
 
@@ -817,6 +897,15 @@ const TOOL_HTML = {
     <div class="out"><output id="fn-out"></output>
       <div class="actions"><button class="btn small primary" id="fn-copy">Kopieren</button><span class="toast" id="fn-toast"></span></div>
       <p class="legend" id="fn-hint"></p></div>`,
+  zeit: () => `<h2>Suchzeit-Rechner</h2>
+    <p class="muted">Wie viel Zeit geht in deinem Betrieb mit Suchen, Nachfragen und Nachtragen verloren? Schätze grob. Es geht um die Grössenordnung, nicht um die genaue Zahl.</p>
+    <div class="sz">
+      <label for="sz-p">Personen, die Unterlagen suchen oder nachtragen<span class="row"><input type="range" id="sz-p" min="1" max="15" value="3"><output id="sz-po"></output></span></label>
+      <label for="sz-m">Minuten pro Person und Tag<span class="row"><input type="range" id="sz-m" min="5" max="90" step="5" value="20"><output id="sz-mo"></output></span></label>
+      <label for="sz-s">Stundensatz in CHF<span class="row"><input type="range" id="sz-s" min="60" max="150" step="5" value="95"><output id="sz-so"></output></span></label>
+      <div class="sz-res" role="status"><small>Pro Jahr verlierst du ungefähr</small><b id="sz-chf"></b><span id="sz-h"></span><small>Annahme: 220 Arbeitstage pro Jahr</small></div>
+      <div class="actions"><button class="btn primary" id="go-start">Herausfinden, wo die Zeit verloren geht</button></div>
+    </div>`,
   raci: () => `<h2>RACI-Matrix</h2>` + teaser('Zuständigkeiten klar regeln', 'Vorlage mit ausgefülltem Beispiel aus einem Gartenbaubetrieb und Anleitung, wie du sie mit deinem Team ausfüllst.',
     `<table class="fake"><tr><th>Aufgabe</th><th>Geschäftsführung</th><th>Projektleitung</th><th>Administration</th></tr>
      <tr><td>Erfassen Kundendaten</td><td></td><td>R</td><td><span class="A">A</span></td></tr>
@@ -906,6 +995,7 @@ function go(v, mode){
   placeNl(v);
   if(notice){ $('#main').insertAdjacentHTML('afterbegin', `<div class="notice" role="status">${notice}</div>`); notice = ''; }
   if(v==='werkzeuge' && state.tool==='fname') initFname();
+  if(v==='werkzeuge' && state.tool==='zeit') renderZeit();
   if(v==='ergebnis' && !state.example) updateShare();
   try{
     const st = {v:v, qi:qi}, cur = history.state;
@@ -983,7 +1073,7 @@ document.addEventListener('click', e => {
   const pt = t.closest('[data-pick-tool]');
   if(pt){ state.tool = pt.dataset.pickTool; save();
     document.querySelectorAll('[data-pick-tool]').forEach(b => b.setAttribute('aria-pressed', b===pt));
-    $('#tool-panel').innerHTML = TOOL_HTML[state.tool](); if(state.tool==='fname') initFname(); return; }
+    $('#tool-panel').innerHTML = TOOL_HTML[state.tool](); if(state.tool==='fname') initFname(); if(state.tool==='zeit') renderZeit(); return; }
   if(t.closest('#fn-copy')) copyName();
   if(t.closest('#share-go')){ track('teilen-nativ'); return shareNative(); }
   if(t.closest('#share-wa')) track('teilen-whatsapp');
@@ -1001,6 +1091,7 @@ document.addEventListener('input', e => {
     clearTimeout(shareT); shareT = setTimeout(updateShare, 300);
   }
   if(t.id && t.id.startsWith('fn-')) renderFname();
+  if(t.id && t.id.startsWith('sz-')) renderZeit();
 });
 document.addEventListener('change', e => {
   if(e.target.id === 'share-name') return updateShare();
@@ -1021,6 +1112,14 @@ function renderFname(){
   if(!$('#fn-out')) return;
   $('#fn-out').textContent = fileName();
   $('#fn-hint').textContent = ($('#fn-ver').value === 'final' && $('#fn-ext').value !== 'pdf') ? 'Finale Dokumente als PDF ablegen.' : '';
+}
+function renderZeit(){
+  const p = +$('#sz-p').value, m = +$('#sz-m').value, s = +$('#sz-s').value;
+  const f = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+  const h = p * m * 220 / 60;
+  $('#sz-po').textContent = p; $('#sz-mo').textContent = m + ' Min.'; $('#sz-so').textContent = s;
+  $('#sz-h').textContent = f(h) + ' Stunden';
+  $('#sz-chf').textContent = 'CHF ' + f(Math.round(h * s / 100) * 100);
 }
 function initFname(){ $('#fn-date').value = new Date().toISOString().slice(0,10); renderFname(); }
 function copyName(){
